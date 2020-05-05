@@ -229,8 +229,13 @@ cm</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
+        <string notr="true">QPushButton#Female {
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+QPushButton#Female:checked{
+    background-color: rgb(144, 179, 245);     	
+}</string>
        </property>
        <property name="text">
         <string>Female</string>
@@ -264,8 +269,13 @@ background-color: rgb(39, 104, 200);</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
+        <string notr="true">QPushButton#Male {
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+QPushButton#Male:checked{
+    background-color: rgb(144, 179, 245);     
+}</string>
        </property>
        <property name="text">
         <string>Male</string>
@@ -302,7 +312,7 @@ background-color: rgb(39, 104, 200);</string>
       <property name="title">
        <string/>
       </property>
-      <widget class="QPushButton" name="ASV">
+      <widget class="QPushButton" name="VC">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -312,11 +322,16 @@ background-color: rgb(39, 104, 200);</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
+        <string notr="true">QPushButton#VC {
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+QPushButton#VC:checked{
+    background-color: rgb(144, 179, 245);     
+}</string>
        </property>
        <property name="text">
-        <string>ASV</string>
+        <string>VC</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -337,7 +352,7 @@ background-color: rgb(39, 104, 200);</string>
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QPushButton" name="NIV">
+      <widget class="QPushButton" name="PC">
        <property name="geometry">
         <rect>
          <x>160</x>
@@ -347,46 +362,16 @@ background-color: rgb(39, 104, 200);</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
+        <string notr="true">QPushButton#PC {
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+QPushButton#PC:checked{
+    background-color: rgb(144, 179, 245);     
+}</string>
        </property>
        <property name="text">
-        <string>NIV</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-       <property name="autoExclusive">
-        <bool>true</bool>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="CPR">
-       <property name="geometry">
-        <rect>
-         <x>310</x>
-         <y>30</y>
-         <width>140</width>
-         <height>40</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
-       </property>
-       <property name="text">
-        <string>CPR</string>
+        <string>PC</string>
        </property>
        <property name="checkable">
         <bool>true</bool>

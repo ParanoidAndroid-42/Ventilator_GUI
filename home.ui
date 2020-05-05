@@ -330,7 +330,7 @@ cmH2O</string>
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="MinVol">
+   <widget class="QPushButton" name="VolPres">
     <property name="geometry">
      <rect>
       <x>670</x>
@@ -341,20 +341,20 @@ cmH2O</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-QPushButton#MinVol {	
+QPushButton#VolPres{	
 	color: rgb(255, 255, 255);
 	background-color: rgb(39, 104, 200);
 }
 
 
-QPushButton#MinVol:checked {	
+QPushButton#VolPres:checked {	
 	color: rgb(0, 0, 0);
 	background-color: rgb(245, 121, 0);
 }</string>
     </property>
     <property name="text">
-     <string>100
-%</string>
+     <string>510
+ml</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -369,7 +369,7 @@ QPushButton#MinVol:checked {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="MinVol_Label">
+   <widget class="QLabel" name="VolPres_Label">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -382,7 +382,7 @@ QPushButton#MinVol:checked {
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;%MinVol&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Vt&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="Ventilation_Mode">
@@ -401,7 +401,7 @@ QPushButton#MinVol:checked {
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;ASV&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;VC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="Patient_Type">
