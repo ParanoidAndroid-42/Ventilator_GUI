@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>610</width>
-    <height>414</height>
+    <width>621</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>601</width>
+      <width>591</width>
       <height>261</height>
      </rect>
     </property>
@@ -406,8 +406,8 @@ QPushButton#PC:checked{
    <widget class="QPushButton" name="PreopCheck">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>290</y>
+      <x>10</x>
+      <y>350</y>
       <width>140</width>
       <height>40</height>
      </rect>
@@ -442,7 +442,7 @@ background-color: rgb(39, 104, 200);</string>
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>290</y>
+      <y>350</y>
       <width>301</width>
       <height>40</height>
      </rect>
@@ -479,7 +479,7 @@ background-color: rgb(39, 104, 200);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>610</width>
+     <width>621</width>
      <height>22</height>
     </rect>
    </property>

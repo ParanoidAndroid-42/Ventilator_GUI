@@ -717,6 +717,16 @@ ml</string>
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
+    <widget class="PlotWidget" name="graphWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>159</x>
+       <y>159</y>
+       <width>451</width>
+       <height>251</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -731,6 +741,14 @@ ml</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
