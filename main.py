@@ -6,8 +6,8 @@ import pymemcache
 shared = pymemcache.Client(('localhost', 11211))
 
 pg.setConfigOption('background', (10, 10, 30))
-graphResolution = 10
-Xscale = 200
+graphResolution = 20
+Xscale = 100
 
 # ---------------------Default Values--------------------- #
 Vt = 510
@@ -18,6 +18,8 @@ PatHeight = 174
 PatIBW = 0
 PCMode = False
 VCMode = True
+StopFlow = True
+StopVolume = False
 # ---------------------Sensor Values--------------------- #
 flowRateSensor = 0
 pressureSensor = 0
@@ -50,7 +52,7 @@ class PlusMinus(QtWidgets.QMainWindow):
 class Monitoring(QtWidgets.QMainWindow):
     def __init__(self):
         super(Monitoring, self).__init__()  # Call the inherited classes __init__ method
-        uic.loadUi('monitoring.ui', self)  # Load the .ui file
+        uic.loadUi('raspberry_pi/monitoring.ui', self)  # Load the .ui file
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
 
         # ---------------------Find Widgets--------------------- #
@@ -60,6 +62,8 @@ class Monitoring(QtWidgets.QMainWindow):
         # ---------------------Connect Buttons to Methods--------------------- #
         self.flow.clicked.connect(self.setFlow)
         self.volume.clicked.connect(self.setVolume)
+
+        self.cleared = False
 
         self.setScreenLocation()
 
@@ -72,12 +76,18 @@ class Monitoring(QtWidgets.QMainWindow):
         self.move(x - 300, y + 150)
 
     def setFlow(self):
-        #homeWindow.graph.clear()
+        global StopVolume, StopFlow
+        StopVolume = True
+        StopFlow = False
+        homeWindow.dataIndex = 0
         homeWindow.flowRatePlotter()
         self.close()
 
     def setVolume(self):
-        #homeWindow.graph.clear()
+        global StopVolume, StopFlow
+        StopVolume = False
+        StopFlow = True
+        homeWindow.dataIndex = 0
         homeWindow.volumePlotter()
         self.close()
 
@@ -203,14 +213,14 @@ class Start(QtWidgets.QMainWindow):
 class Home(QtWidgets.QMainWindow):
     def __init__(self):
         super(Home, self).__init__()  # Call the inherited classes __init__ method
-        uic.loadUi('home.ui', self)  # Load the .ui file
+        uic.loadUi('raspberry_pi/home.ui', self)  # Load the .ui file
         global Xscale, graphResolution
 
         # ---------------------Find Widgets--------------------- #
         self.ModesButton = self.findChild(QtWidgets.QPushButton, 'Modes')
         self.VolPresButton = self.findChild(QtWidgets.QPushButton, 'VolPres')
         self.PEEPButton = self.findChild(QtWidgets.QPushButton, 'PEEP')
-        self.OxygenButton = self.findChild(QtWidgets.QPushButton, 'Oxygen')
+        #self.OxygenButton = self.findChild(QtWidgets.QPushButton, 'Oxygen')
         self.ControlsButton = self.findChild(QtWidgets.QPushButton, 'Controls')
         self.AlarmsButton = self.findChild(QtWidgets.QPushButton, 'Alarms')
         self.SystemButton = self.findChild(QtWidgets.QPushButton, 'System')
@@ -227,9 +237,12 @@ class Home(QtWidgets.QMainWindow):
         self.xAxis = self.graph.getAxis("bottom")
         self.curve = self.graph.getPlotItem().plot()
         self.timer = QtCore.QTimer()
-        self.sensorValues = [0]
+        self.volumeData = [0]
+        self.flowData = [0]
         for i in range(Xscale*graphResolution):
-            self.sensorValues.append(0)
+            self.volumeData.append(0)
+        for i in range(Xscale*graphResolution):
+            self.flowData.append(0)
         self.dataIndex = 0
 
         # -----------For testing-----------
@@ -242,7 +255,7 @@ class Home(QtWidgets.QMainWindow):
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
         self.VolPresButton.clicked.connect(self.buttonState)
         self.PEEPButton.clicked.connect(self.buttonState)
-        self.OxygenButton.clicked.connect(self.buttonState)
+        #self.OxygenButton.clicked.connect(self.buttonState)
         self.plus.clicked.connect(self.plusClicked)
         self.minus.clicked.connect(self.minusClicked)
 
@@ -251,48 +264,60 @@ class Home(QtWidgets.QMainWindow):
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
-        global Xscale, graphResolution
+        global Xscale, graphResolution, StopVolume
         self.graph.setMouseEnabled(x=False, y=False)
         self.graph.setMenuEnabled(enableMenu=False)
         self.graph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
-        self.xAxis.setScale(scale=(.1 / graphResolution))
+        self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
         self.graph.setLabel("left", text="Volume ml")
         self.curve.setPen(pg.mkPen('g'))
         self.timer.timeout.connect(self.volumeUpdater)
         self.timer.start(0)
 
     def volumeUpdater(self):
-        global Xscale, graphResolution
-        if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3: #
-            self.sensorValues[self.dataIndex] = int(shared.get('lungVolume'))
-            self.curve.setData(self.sensorValues)
-            self.dataIndex += 1
-        elif int(shared.get('breathCounter')) == 3:
-            self.dataIndex = 0
-            self.curve.setData(self.sensorValues, antialias=True)
+        global Xscale, graphResolution, StopVolume
+        if not StopVolume:
+            self.volumeData[:-1] = self.volumeData[1:]
+            self.volumeData[-1] = int(shared.get('lungVolume'))
+            self.curve.setData(self.volumeData, antialias=True)
+
+            # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
+            #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
+            #     self.curve.setData(self.volumeData)
+            #     self.dataIndex += 1
+            # else: #int(shared.get('breathCounter')) == 3:
+            #     self.dataIndex = 0
+            #     self.curve.setData(self.volumeData, antialias=True)
 
     def flowRatePlotter(self):
-        global Xscale, graphResolution
+        global Xscale, graphResolution, StopFlow
         self.graph.setMouseEnabled(x=False, y=False)
         self.graph.setMenuEnabled(enableMenu=False)
         self.graph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
-        self.xAxis.setScale(scale=(.1 / graphResolution))
-        self.graph.addLine(y=0, x=None)
+        self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
+        #self.graph.addLine(y=0, x=None)
         self.graph.setLabel("left", text="Flow L/min")
         self.curve.setPen(pg.mkPen('m', width=2))
         self.timer.timeout.connect(self.flowRateUpdater)
         self.timer.start(0)
+        if StopFlow:
+            self.timer.stop()
 
     def flowRateUpdater(self):
-        global Xscale, graphResolution
-        if self.dataIndex <= Xscale*graphResolution:
-            #self.sensorValues[self.dataIndex] = slider.flowRate.value()
-            #self.sensorValues[self.dataIndex] = int(shared.get('lungVolume'))
-            self.curve.setData(self.sensorValues)
-            self.dataIndex += 1
-        else:
-            self.dataIndex = 0
-            self.curve.setData(self.sensorValues, antialias=True)
+        global Xscale, graphResolution, StopFlow
+        if not StopFlow:
+            self.flowData[:-1] = self.flowData[1:]
+            self.flowData[-1] = int(float(shared.get('flow')))
+            self.curve.setData(self.flowData, antialias=True)
+
+            # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
+            #     #self.flowData[self.dataIndex] = slider.flowRate.value()
+            #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
+            #     self.curve.setData(self.flowData)
+            #     self.dataIndex += 1
+            # elif int(shared.get('breathCounter')) == 3:
+            #     self.dataIndex = 0
+            #     self.curve.setData(self.flowData, antialias=True)
 
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
@@ -302,7 +327,7 @@ class Home(QtWidgets.QMainWindow):
         self.move(x, y)
 
     def buttonState(self):
-        if self.VolPresButton.isChecked() or self.PEEPButton.isChecked() or self.OxygenButton.isChecked():
+        if self.VolPresButton.isChecked() or self.PEEPButton.isChecked():
             self.plusminus.show()
         else:
             self.plusminus.close()
@@ -320,9 +345,9 @@ class Home(QtWidgets.QMainWindow):
         elif self.PEEPButton.isChecked():
             PEEP += 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
-        elif self.OxygenButton.isChecked():
-            Oxygen += 1
-            self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
+        # elif self.OxygenButton.isChecked():
+        #     Oxygen += 1
+        #     self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
 
     def minusClicked(self):
         global Vt, Pcontrol, PEEP, Oxygen, VCMode, PCMode
@@ -337,9 +362,9 @@ class Home(QtWidgets.QMainWindow):
         elif self.PEEPButton.isChecked():
             PEEP -= 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
-        elif self.OxygenButton.isChecked():
-            Oxygen -= 1
-            self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
+        # elif self.OxygenButton.isChecked():
+        #     Oxygen -= 1
+        #     self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
 
     def openModesWindow(self):
         self.ModesWindow = Modes()
@@ -354,7 +379,7 @@ class Home(QtWidgets.QMainWindow):
 class Modes(QtWidgets.QMainWindow):
     def __init__(self):
         super(Modes, self).__init__()  # Call the inherited classes __init__ method
-        uic.loadUi('modes.ui', self)  # Load the .ui file
+        uic.loadUi('raspberry_pi/modes.ui', self)  # Load the .ui file
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         global PCMode, VCMode
 
@@ -383,7 +408,7 @@ class Modes(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = (screen.width() / 2) - (widget.width() / 2)
         y = (screen.height() - widget.height()) / 2
-        self.move(x-10, y-60)
+        self.move(x+10, y-25)
 
     def confirm(self):
         global PCMode, VCMode
