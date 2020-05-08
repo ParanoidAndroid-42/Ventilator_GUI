@@ -347,7 +347,7 @@ class Home(QtWidgets.QMainWindow):
 
     def increment(self, scale_position):
         print("inc")
-        if self.inc_counter > 2:
+        if self.inc_counter > 1:
             self.plusClicked()
             self.inc_counter = 0
             self.dec_counter = 0
@@ -356,7 +356,7 @@ class Home(QtWidgets.QMainWindow):
 
     def decrement(self, scale_position):
         print("dec")
-        if self.dec_counter > 3:
+        if self.dec_counter > 1:
             self.minusClicked()
             self.dec_counter = 0
             self.inc_counter = 0
