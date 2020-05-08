@@ -76,7 +76,7 @@ class Monitoring(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = (screen.width() / 2) - (widget.width() / 2)
         y = (screen.height() - widget.height()) / 2
-        self.move(x - 300, y + 150)
+        self.move(x - 350, y + 150)
 
     def setFlow(self):
         global StopVolume, StopFlow
@@ -441,7 +441,7 @@ class Modes(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = (screen.width() / 2) - (widget.width() / 2)
         y = (screen.height() - widget.height()) / 2
-        self.move(x+10, y-25)
+        self.move(x+10, y-50)
 
     def confirm(self):
         global PCMode, VCMode
@@ -475,8 +475,8 @@ class System(QtWidgets.QMainWindow):
         self.CancelButton = self.findChild(QtWidgets.QPushButton, 'cancel')
 
         # ---------------------Connect Buttons to Methods--------------------- #
-        self.ShutdownButton.clicked.connect(self.quit)
-        self.CancelButton.clicked.connect(self.cancel)
+        self.ShutdownButton.clicked.connect(self.shutdownMethod)
+        self.CancelButton.clicked.connect(self.cancelMethod)
 
         self.setScreenLocation()
 
@@ -488,11 +488,11 @@ class System(QtWidgets.QMainWindow):
         y = (screen.height() - widget.height()) / 2
         self.move(x-100, y+120)
 
-    def quit(self):
+    def shutdownMethod(self):
         homeWindow.close()
         self.close()
 
-    def cancel(self):
+    def cancelMethod(self):
         self.close()
 
 
