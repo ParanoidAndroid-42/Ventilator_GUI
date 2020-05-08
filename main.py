@@ -1,7 +1,10 @@
-from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QDesktopWidget
+from PyQt5 import QtWidgets, QtCore, uic
+from pyky040 import pyky040
 import pyqtgraph as pg
+import threading
 import sys
+
 import pymemcache
 shared = pymemcache.Client(('localhost', 11211))
 
@@ -23,6 +26,22 @@ StopVolume = False
 # ---------------------Sensor Values--------------------- #
 flowRateSensor = 0
 pressureSensor = 0
+
+# ---------------------Init Encoder--------------------- #
+
+
+def increment():
+    homeWindow.plusClicked()
+
+
+def decrement():
+    homeWindow.minusClicked()
+
+
+encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+encoder.setup(loop=True, step=1, inc_callback=increment(), dec_callback=decrement())
+encoder_thread = threading.Thread(target=encoder.watch)
+encoder_thread.start()
 
 
 # ---------------------Plus Minus Window Class--------------------- #
@@ -260,7 +279,7 @@ class Home(QtWidgets.QMainWindow):
         self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
-        self.show()  # Show the GUI
+        self.showFullScreen()  # Show the GUI
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
