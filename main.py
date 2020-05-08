@@ -249,6 +249,7 @@ class Home(QtWidgets.QMainWindow):
         self.dataIndex = 0
 
         # -----------Encoder Setup---------
+        self.counter = 0
         self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
         self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
         self.encoder_thread = threading.Thread(target=self.encoder.watch)
@@ -341,13 +342,17 @@ class Home(QtWidgets.QMainWindow):
         else:
             self.plusminus.close()
 
-    def increment(self):
-        self.plusClicked()
-        print("plus")
+    def increment(self, scale_position):
+        if self.counter > 2:
+            self.plusClicked()
+        else:
+            self.counter += 1
 
-    def decrement(self):
-        self.minusClicked()
-        print("minus")
+    def decrement(self, scale_position):
+        if self.counter > 2:
+            self.minusClicked()
+        else:
+            self.counter += 1
 
     def plusClicked(self):
         global Vt, Pcontrol, PEEP, Oxygen, VCMode, PCMode
