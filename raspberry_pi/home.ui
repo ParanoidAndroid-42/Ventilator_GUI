@@ -35,6 +35,9 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(0, 0, 0);</string>
@@ -60,6 +63,9 @@ background-color: rgb(0, 0, 0);</string>
       <width>191</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
@@ -90,6 +96,9 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(0, 0, 0);</string>
@@ -116,6 +125,9 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(0, 0, 0);</string>
@@ -141,6 +153,9 @@ background-color: rgb(0, 0, 0);</string>
       <width>140</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
@@ -191,7 +206,7 @@ background-color: rgb(0, 0, 0);</string>
      </rect>
     </property>
     <property name="autoFillBackground">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
@@ -228,6 +243,9 @@ cmH2O</string>
       <width>91</width>
       <height>61</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
