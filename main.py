@@ -248,6 +248,12 @@ class Home(QtWidgets.QMainWindow):
             self.flowData.append(0)
         self.dataIndex = 0
 
+        # -----------Encoder Setup---------
+        self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+        self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
+        self.encoder_thread = threading.Thread(target=self.encoder.watch)
+        self.encoder_thread.start()
+
         # -----------For testing-----------
         self.plusminus = PlusMinus()
         self.plus = self.plusminus.plusButton
@@ -334,6 +340,14 @@ class Home(QtWidgets.QMainWindow):
             self.plusminus.show()
         else:
             self.plusminus.close()
+
+    def increment(self):
+        self.plusClicked()
+        print("plus")
+
+    def decrement(self):
+        self.minusClicked()
+        print("minus")
 
     def plusClicked(self):
         global Vt, Pcontrol, PEEP, Oxygen, VCMode, PCMode
@@ -435,21 +449,5 @@ class Modes(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
-
-
-# ---------------------Init Encoder--------------------- #
-
-def increment():
-    homeWindow.plusClicked()
-    print("plus")
-
-def decrement():
-    homeWindow.minusClicked()
-    print("minus")
-
-encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
-encoder.setup(loop=True, step=1, inc_callback=increment(), dec_callback=decrement())
-encoder_thread = threading.Thread(target=encoder.watch)
-encoder_thread.start()
 
 app.exec_()  # Start the application
