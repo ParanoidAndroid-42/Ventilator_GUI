@@ -272,6 +272,7 @@ class Home(QtWidgets.QMainWindow):
         #self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
+        #self.show()
         self.showFullScreen()  # Show the GUI
 
     # ---------------------Methods--------------------- #
@@ -345,6 +346,7 @@ class Home(QtWidgets.QMainWindow):
     #         self.plusminus.close()
 
     def increment(self, scale_position):
+        print("inc")
         if self.inc_counter > 2:
             self.inc_plusClicked()
             self.inc_counter = 0
@@ -353,6 +355,7 @@ class Home(QtWidgets.QMainWindow):
             self.inc_counter += 1
 
     def decrement(self, scale_position):
+        print("dec")
         if self.dec_counter > 3:
             self.minusClicked()
             self.dec_counter = 0
@@ -473,10 +476,19 @@ class System(QtWidgets.QMainWindow):
         self.ShutdownButton = self.findChild(QtWidgets.QPushButton, 'shutdown')
 
         # ---------------------Connect Buttons to Methods--------------------- #
-        self.ShutdownButton.clicked.connect(self.shutdown)
+        self.ShutdownButton.clicked.connect(self.quit)
+
+        self.setScreenLocation()
 
         # ---------------------Methods--------------------- #
-    def shutdown(self):
+    def setScreenLocation(self):
+        screen = QDesktopWidget().screenGeometry()
+        widget = self.geometry()
+        x = (screen.width() / 2) - (widget.width() / 2)
+        y = (screen.height() - widget.height()) / 2
+        self.move(x-100, y+120)
+
+    def quit(self):
         homeWindow.close()
         self.close()
 
