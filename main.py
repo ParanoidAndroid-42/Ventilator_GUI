@@ -74,8 +74,8 @@ class Monitoring(QtWidgets.QMainWindow):
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
-        x = (screen.width() / 2) - (widget.width() / 2)
-        y = (screen.height() - widget.height()) / 2
+        x = int((screen.width() / 2) - (widget.width() / 2))
+        y = int((screen.height() - widget.height()) / 2)
         self.move(x - 350, y + 150)
 
     def setFlow(self):
@@ -293,6 +293,8 @@ class Home(QtWidgets.QMainWindow):
             self.volumeData[:-1] = self.volumeData[1:]
             self.volumeData[-1] = int(shared.get('lungVolume'))
             self.curve.setData(self.volumeData, antialias=True)
+        elif StopVolume:
+            self.volumeData = [0]
 
             # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
             #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
@@ -322,7 +324,8 @@ class Home(QtWidgets.QMainWindow):
             self.flowData[:-1] = self.flowData[1:]
             self.flowData[-1] = int(float(shared.get('flow')))
             self.curve.setData(self.flowData, antialias=True)
-
+        elif StopFlow:
+            self.flowData = [0]
             # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
             #     #self.flowData[self.dataIndex] = slider.flowRate.value()
             #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
@@ -439,9 +442,9 @@ class Modes(QtWidgets.QMainWindow):
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
-        x = (screen.width() / 2) - (widget.width() / 2)
-        y = (screen.height() - widget.height()) / 2
-        self.move(x+10, y-50)
+        x = int((screen.width() / 2) - (widget.width() / 2))
+        y = int((screen.height() - widget.height()) / 2)
+        self.move(x+10, y-60)
 
     def confirm(self):
         global PCMode, VCMode
@@ -484,8 +487,8 @@ class System(QtWidgets.QMainWindow):
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
-        x = (screen.width() / 2) - (widget.width() / 2)
-        y = (screen.height() - widget.height()) / 2
+        x = int((screen.width() / 2) - (widget.width() / 2))
+        y = int((screen.height() - widget.height()) / 2)
         self.move(x-100, y+120)
 
     def shutdownMethod(self):
