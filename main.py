@@ -257,8 +257,8 @@ class Home(QtWidgets.QMainWindow):
 
         # -----------For testing-----------
         self.plusminus = PlusMinus()
-        self.plus = self.plusminus.plusButton
-        self.minus = self.plusminus.minusButton
+        #self.plus = self.plusminus.plusButton
+        #self.minus = self.plusminus.minusButton
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
@@ -266,8 +266,8 @@ class Home(QtWidgets.QMainWindow):
         self.VolPresButton.clicked.connect(self.buttonState)
         self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
-        self.plus.clicked.connect(self.plusClicked)
-        self.minus.clicked.connect(self.minusClicked)
+        #self.plus.clicked.connect(self.plusClicked)
+        #self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
         self.showFullScreen()  # Show the GUI
@@ -345,12 +345,14 @@ class Home(QtWidgets.QMainWindow):
     def increment(self, scale_position):
         if self.counter > 2:
             self.plusClicked()
+            self.counter = 0
         else:
             self.counter += 1
 
     def decrement(self, scale_position):
         if self.counter > 2:
             self.minusClicked()
+            self.counter = 0
         else:
             self.counter += 1
 
