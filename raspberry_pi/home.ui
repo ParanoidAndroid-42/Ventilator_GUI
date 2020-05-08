@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(5, 10, 30);</string>
+   <string notr="true">background-color: rgb(10, 20, 60);</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -35,12 +35,9 @@
       <height>51</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
      <string>Modes</string>
@@ -64,12 +61,9 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
      <string>Monitoring</string>
@@ -96,12 +90,10 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+background-color: rgb(39, 104, 200);
+background-color: rgb(136, 138, 133);</string>
     </property>
     <property name="text">
      <string>System</string>
@@ -125,12 +117,9 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
      <string>Alarms</string>
@@ -154,12 +143,9 @@ background-color: rgb(0, 0, 0);</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
      <string>Controls</string>
@@ -206,11 +192,20 @@ background-color: rgb(0, 0, 0);</string>
      </rect>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+     <string notr="true">
+QPushButton#PEEP {	
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+
+
+QPushButton#PEEP:checked {	
+	color: rgb(0, 0, 0);
+	background-color: rgb(245, 121, 0);
+}</string>
     </property>
     <property name="text">
      <string>5
@@ -244,12 +239,18 @@ cmH2O</string>
       <height>61</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
+     <string notr="true">
+QPushButton#VolPres{	
+	color: rgb(255, 255, 255);
+	background-color: rgb(39, 104, 200);
+}
+
+
+QPushButton#VolPres:checked {	
+	color: rgb(0, 0, 0);
+	background-color: rgb(245, 121, 0);
+}</string>
     </property>
     <property name="text">
      <string>510
@@ -332,7 +333,7 @@ ml</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(5, 5, 15);</string>
+     <string notr="true">background-color: rgb(10, 10, 30);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::WinPanel</enum>
@@ -344,7 +345,7 @@ ml</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>0</y>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -392,7 +393,7 @@ ml</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>0</y>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -440,7 +441,7 @@ ml</string>
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>0</y>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -504,7 +505,7 @@ ml</string>
      <property name="geometry">
       <rect>
        <x>460</x>
-       <y>60</y>
+       <y>50</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -520,7 +521,7 @@ ml</string>
      <property name="geometry">
       <rect>
        <x>460</x>
-       <y>80</y>
+       <y>70</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -568,9 +569,6 @@ ml</string>
        <width>601</width>
        <height>191</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(5, 5, 15);</string>
      </property>
     </widget>
     <widget class="Line" name="line_5">
