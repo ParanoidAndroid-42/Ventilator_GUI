@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -62,7 +62,7 @@ background-color: rgb(39, 104, 200);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -80,7 +80,7 @@ background-color: rgb(39, 104, 200);</string>
    </widget>
    <widget class="QPushButton" name="System">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -91,9 +91,8 @@ background-color: rgb(39, 104, 200);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);
-background-color: rgb(136, 138, 133);</string>
+     <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
      <string>System</string>
@@ -118,7 +117,7 @@ background-color: rgb(136, 138, 133);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -144,7 +143,7 @@ background-color: rgb(39, 104, 200);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -197,7 +196,7 @@ background-color: rgb(39, 104, 200);</string>
     <property name="styleSheet">
      <string notr="true">
 QPushButton#PEEP {	
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 
@@ -242,7 +241,7 @@ cmH2O</string>
     <property name="styleSheet">
      <string notr="true">
 QPushButton#VolPres{	
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 

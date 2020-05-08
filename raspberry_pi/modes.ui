@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -59,7 +59,7 @@ background-color: rgb(39, 104, 200);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -92,7 +92,7 @@ background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton#VC {
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 QPushButton#VC:checked{
@@ -148,7 +148,7 @@ QPushButton#VC:checked{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton#PC {
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 QPushButton#PC:checked{

@@ -249,7 +249,8 @@ class Home(QtWidgets.QMainWindow):
         self.dataIndex = 0
 
         # -----------Encoder Setup---------
-        self.counter = 0
+        self.inc_counter = 0
+        self.dec_counter = 0
         self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
         self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
         self.encoder_thread = threading.Thread(target=self.encoder.watch)
@@ -263,6 +264,7 @@ class Home(QtWidgets.QMainWindow):
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
+        self.SystemButton.clicked.connect(self.openSystemWindow)
         #self.VolPresButton.clicked.connect(self.buttonState)
         #self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
@@ -343,18 +345,20 @@ class Home(QtWidgets.QMainWindow):
     #         self.plusminus.close()
 
     def increment(self, scale_position):
-        if self.counter > 2:
-            self.plusClicked()
-            self.counter = 0
+        if self.inc_counter > 2:
+            self.inc_plusClicked()
+            self.inc_counter = 0
+            self.dec_counter = 0
         else:
-            self.counter += 1
+            self.inc_counter += 1
 
     def decrement(self, scale_position):
-        if self.counter > 2:
+        if self.dec_counter > 3:
             self.minusClicked()
-            self.counter = 0
+            self.dec_counter = 0
+            self.inc_counter = 0
         else:
-            self.counter += 1
+            self.dec_counter += 1
 
     def plusClicked(self):
         global Vt, Pcontrol, PEEP, Oxygen, VCMode, PCMode
@@ -397,6 +401,10 @@ class Home(QtWidgets.QMainWindow):
     def openMonitoringWindow(self):
         self.MonitoringWindow = Monitoring()
         self.MonitoringWindow.show()
+
+    def openSystemWindow(self):
+        self.SystemWindow = System()
+        self.SystemWindow.show()
 
 
 # ---------------------Modes Window Class--------------------- #
@@ -451,6 +459,25 @@ class Modes(QtWidgets.QMainWindow):
         self.close()
 
     def cancel(self):
+        self.close()
+
+
+# ---------------------Modes Window Class--------------------- #
+class System(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(System, self).__init__()  # Call the inherited classes __init__ method
+        uic.loadUi('raspberry_pi/system.ui', self)  # Load the .ui file
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+
+        # ---------------------Find Widgets--------------------- #
+        self.ShutdownButton = self.findChild(QtWidgets.QPushButton, 'shutdown')
+
+        # ---------------------Connect Buttons to Methods--------------------- #
+        self.ShutdownButton.clicked.connect(self.shutdown)
+
+        # ---------------------Methods--------------------- #
+    def shutdown(self):
+        homeWindow.close()
         self.close()
 
 
