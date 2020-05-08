@@ -436,20 +436,20 @@ class Modes(QtWidgets.QMainWindow):
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
 
-#startWindow = Start()
-#slider = FlowSlider()
-
-app.exec_()  # Start the application
 
 # ---------------------Init Encoder--------------------- #
 
 def increment():
     homeWindow.plusClicked()
+    print("plus")
 
 def decrement():
     homeWindow.minusClicked()
+    print("minus")
 
 encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
 encoder.setup(loop=True, step=1, inc_callback=increment(), dec_callback=decrement())
 encoder_thread = threading.Thread(target=encoder.watch)
 encoder_thread.start()
+
+app.exec_()  # Start the application
