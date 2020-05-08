@@ -28,27 +28,27 @@ flowRateSensor = 0
 pressureSensor = 0
 
 
+# ---------------------Flow Slider Window Class--------------------- #
+# class FlowSlider(QtWidgets.QMainWindow):
+#     def __init__(self):
+#         super(FlowSlider, self).__init__()  # Call the inherited classes __init__ method
+#         uic.loadUi('flowSlider.ui', self)  # Load the .ui file
+#
+#         # ---------------------Find Widgets--------------------- #
+#         self.flowRate = self.findChild(QtWidgets.QSlider, 'flowRate')
+#
+#         self.show()
+
+
 # ---------------------Plus Minus Window Class--------------------- #
-class FlowSlider(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(FlowSlider, self).__init__()  # Call the inherited classes __init__ method
-        uic.loadUi('flowSlider.ui', self)  # Load the .ui file
-
-        # ---------------------Find Widgets--------------------- #
-        self.flowRate = self.findChild(QtWidgets.QSlider, 'flowRate')
-
-        self.show()
-
-
-# ---------------------Plus Minus Window Class--------------------- #
-class PlusMinus(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(PlusMinus, self).__init__()  # Call the inherited classes __init__ method
-        uic.loadUi('plusMinus.ui', self)  # Load the .ui file
-
-        # ---------------------Find Widgets--------------------- #
-        self.plusButton = self.findChild(QtWidgets.QPushButton, 'plus')
-        self.minusButton = self.findChild(QtWidgets.QPushButton, 'minus')
+# class PlusMinus(QtWidgets.QMainWindow):
+#     def __init__(self):
+#         super(PlusMinus, self).__init__()  # Call the inherited classes __init__ method
+#         uic.loadUi('plusMinus.ui', self)  # Load the .ui file
+#
+#         # ---------------------Find Widgets--------------------- #
+#         self.plusButton = self.findChild(QtWidgets.QPushButton, 'plus')
+#         self.minusButton = self.findChild(QtWidgets.QPushButton, 'minus')
 
 
 # ---------------------Monitoring Window Class--------------------- #
@@ -115,16 +115,16 @@ class Start(QtWidgets.QMainWindow):
         self.IBWLabel = self.findChild(QtWidgets.QLabel, 'IBW')
 
         # -----------For testing-----------
-        self.plusminus = PlusMinus()
-        self.plus = self.plusminus.plusButton
-        self.minus = self.plusminus.minusButton
+        #self.plusminus = PlusMinus()
+        #self.plus = self.plusminus.plusButton
+        #self.minus = self.plusminus.minusButton
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.PCButton.clicked.connect(self.setPCMode)
         self.VCButton.clicked.connect(self.setVCMode)
         self.MaleButton.clicked.connect(self.maleIBW)
         self.FemaleButton.clicked.connect(self.femaleIBW)
-        self.PatHeightButton.clicked.connect(self.buttonState)
+        #self.PatHeightButton.clicked.connect(self.buttonState)
         self.plus.clicked.connect(self.PatAddHeight)
         self.minus.clicked.connect(self.PatSubtractHeight)
         self.StartVentilationButton.clicked.connect(self.startVentilation)
@@ -147,11 +147,11 @@ class Start(QtWidgets.QMainWindow):
         y = (screen.height() - widget.height()) / 2
         self.move(x-90, y+20)
 
-    def buttonState(self):
-        if self.PatHeightButton.isChecked():
-            self.plusminus.show()
-        else:
-            self.plusminus.close()
+    # def buttonState(self):
+    #     if self.PatHeightButton.isChecked():
+    #         self.plusminus.show()
+    #     else:
+    #         self.plusminus.close()
 
     def setPCMode(self):
         global PCMode, VCMode
@@ -256,15 +256,15 @@ class Home(QtWidgets.QMainWindow):
         self.encoder_thread.start()
 
         # -----------For testing-----------
-        self.plusminus = PlusMinus()
+        #self.plusminus = PlusMinus()
         #self.plus = self.plusminus.plusButton
         #self.minus = self.plusminus.minusButton
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
-        self.VolPresButton.clicked.connect(self.buttonState)
-        self.PEEPButton.clicked.connect(self.buttonState)
+        #self.VolPresButton.clicked.connect(self.buttonState)
+        #self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
         #self.plus.clicked.connect(self.plusClicked)
         #self.minus.clicked.connect(self.minusClicked)
@@ -336,11 +336,11 @@ class Home(QtWidgets.QMainWindow):
         y = (screen.height() - widget.height()) / 2
         self.move(x, y)
 
-    def buttonState(self):
-        if self.VolPresButton.isChecked() or self.PEEPButton.isChecked():
-            self.plusminus.show()
-        else:
-            self.plusminus.close()
+    # def buttonState(self):
+    #     if self.VolPresButton.isChecked() or self.PEEPButton.isChecked():
+    #         self.plusminus.show()
+    #     else:
+    #         self.plusminus.close()
 
     def increment(self, scale_position):
         if self.counter > 2:
