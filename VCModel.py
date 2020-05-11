@@ -12,18 +12,22 @@ dataInterval = .01  # seconds between data transmissions
 
 #sec
 T_full = 2.5
-T_hold = 1.5
+T_hold = 1
 T_out = 2.5
-T_dwell = 1.5
+T_dwell = 1
 Vt = 500  # ml
 EndVolume = 15  # ml
+
 flowMultiplier = 20
+volumeMultiplier = 100
 
 inhaleState = True
 holdState = False
 exhaleState = False
 dwellState = False
 
+measuredInhaleTime = T_full
+measuredExhaleTime = T_out
 breathCounter = 0
 volPerInterval = Vt / (T_full * (1/dataInterval))  # change in volume between data transmissions
 holdFlowPerInterval = volPerInterval / (T_full * (1 / dataInterval))
@@ -31,20 +35,22 @@ dwellFlowPerInterval = volPerInterval / (T_full * (1 / dataInterval))
 
 
 def inhale():
-    global lungVolume, Vt, volPerInterval, flow, flowMultiplier, holdFlowPerInterval, T_full
+    global lungVolume, Vt, volPerInterval, flow, flowMultiplier, holdFlowPerInterval, T_full, volumeMultiplier, measuredInhaleTime
     flow = volPerInterval
     shared.set('flow', (flow * flowMultiplier))
-    start = time.time()
+    totalStart = time.time()
     inhaleStartTime = time.time()
     while lungVolume < Vt:
         if time.time() > (inhaleStartTime + dataInterval) and lungVolume < Vt:
             inhaleStartTime = time.time()
-            lungVolume += volPerInterval
-            shared.set('lungVolume', int(lungVolume))
-            #flow += holdFlowPerInterval  # log function here
-            #print(time.time() - start)
-            #flow = math.log(time.time() - start) * -2
-            flow = (.5 * ((time.time() - start) - T_full) ** 2)
+            x = time.time() - start
+
+            #lungVolume += volPerInterval
+            lungVolume = lungVolume = (-.5 * (x - T_full) ** 2) * (Vt/T_full) + Vt + 1
+            if lungVolume >= 0:
+                shared.set('lungVolume', int(lungVolume))
+
+            flow = (.5 * (x - T_full) ** 2)
             shared.set('flow', (flow * flowMultiplier))
 
 
@@ -62,14 +68,16 @@ def exhale():
     shared.set('flow', (flow * flowMultiplier))
     totalExhaleTime = time.time() + T_out
     exhaleStartTime = time.time()
-    while lungVolume > 0:
+    while lungVolume > 1:
         if time.time() > (exhaleStartTime + dataInterval) and lungVolume > 0:
             exhaleStartTime = time.time()
-            lungVolume -= volPerInterval
-            shared.set('lungVolume', int(lungVolume))
-            #flow -= dwellFlowPerInterval
-            #flow = math.log(time.time()-totalExhaleTime)
-            flow = (.5 * -((time.time() - start) - T_out) ** 2)
+            x = time.time() - start
+            #lungVolume -= volPerInterval
+            lungVolume = (.5 * (x - T_out) ** 2) * (Vt/T_out)
+            if lungVolume <= Vt:
+                shared.set('lungVolume', int(lungVolume))
+
+            flow = (.5 * -(x - T_out) ** 2)
             shared.set('flow', (flow * flowMultiplier))
 
 
@@ -93,6 +101,7 @@ while True:
         inhale()
         inhaleState = False
         holdState = True
+        measuredInhaleTime = time.time() - start
         #print("Inhale time: {} seconds".format(round(time.time() - start, 2)))
 
     if holdState:
@@ -107,6 +116,7 @@ while True:
         exhale()
         exhaleState = False
         dwellState = True
+        measuredExhaleTime = time.time() - start
         #print("Exhale time: {} seconds".format(round(time.time() - start, 2)))
 
     if dwellState:
