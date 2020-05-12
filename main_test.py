@@ -14,9 +14,14 @@ Xscale = 100
 
 # ---------------------Default Values--------------------- #
 Vt = 510
+shared.set('Vt', Vt)
 Pcontrol = 9
 PEEP = 5
 Oxygen = 50
+Rate = 0
+I_Ratio = 1
+E_Ratio = 1
+Flowtrigger = 5
 PatHeight = 174
 PatIBW = 0
 PCMode = False
@@ -76,7 +81,7 @@ class Monitoring(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x - 350, y + 150)
+        self.move(x - 400, y + 120)
 
     def setFlow(self):
         global StopVolume, StopFlow
@@ -235,7 +240,7 @@ class Home(QtWidgets.QMainWindow):
         self.VolPresLabel = self.findChild(QtWidgets.QLabel, 'VolPres_Label')
 
         # Graph stuff
-        #pg.setConfigOptions(antialias=True)
+        pg.setConfigOptions(antialias=True)
         self.graph = self.findChild(QtWidgets.QWidget, 'graphWidget')
         self.xAxis = self.graph.getAxis("bottom")
         self.curve = self.graph.getPlotItem().plot()
@@ -265,6 +270,7 @@ class Home(QtWidgets.QMainWindow):
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
+        self.ControlsButton.clicked.connect(self.openControlsWindow)
         #self.VolPresButton.clicked.connect(self.buttonState)
         #self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
@@ -272,8 +278,8 @@ class Home(QtWidgets.QMainWindow):
         #self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
-        self.show()
-        #self.showFullScreen()  # Show the GUI
+        #self.show()
+        self.show()  # Show the GUI
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
@@ -315,6 +321,8 @@ class Home(QtWidgets.QMainWindow):
         self.curve.setPen(pg.mkPen('m', width=2))
         self.timer.timeout.connect(self.flowRateUpdater)
         self.timer.start(0)
+        if StopFlow:
+            self.timer.stop()
 
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
@@ -324,7 +332,6 @@ class Home(QtWidgets.QMainWindow):
             self.curve.setData(self.flowData, antialias=True)
         elif StopFlow:
             self.flowData = [0]
-
             # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
             #     #self.flowData[self.dataIndex] = slider.flowRate.value()
             #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
@@ -369,6 +376,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt += 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol += 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -386,6 +394,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt -= 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol -= 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -408,6 +417,10 @@ class Home(QtWidgets.QMainWindow):
     def openSystemWindow(self):
         self.SystemWindow = System()
         self.SystemWindow.show()
+
+    def openControlsWindow(self):
+        self.ControlsWindow = Controls()
+        self.ControlsWindow.show()
 
 
 # ---------------------Modes Window Class--------------------- #
@@ -465,7 +478,7 @@ class Modes(QtWidgets.QMainWindow):
         self.close()
 
 
-# ---------------------Modes Window Class--------------------- #
+# ---------------------System Window Class--------------------- #
 class System(QtWidgets.QMainWindow):
     def __init__(self):
         super(System, self).__init__()  # Call the inherited classes __init__ method
@@ -495,6 +508,111 @@ class System(QtWidgets.QMainWindow):
         self.close()
 
     def cancelMethod(self):
+        self.close()
+
+
+# ---------------------Controls Window Class--------------------- #
+class Controls(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Controls, self).__init__()  # Call the inherited classes __init__ method
+        uic.loadUi('raspberry_pi/controls.ui', self)  # Load the .ui file
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+
+        # ---------------------Find Widgets--------------------- #
+        self.ConfirmButton = self.findChild(QtWidgets.QPushButton, 'Confirm')
+        self.CancelButton = self.findChild(QtWidgets.QPushButton, 'Cancel')
+        self.IERatioButton = self.findChild(QtWidgets.QPushButton, 'IERatio')
+        self.RateButton = self.findChild(QtWidgets.QPushButton, 'Rate')
+        self.FlowtriggerButton = self.findChild(QtWidgets.QPushButton, 'Flowtrigger')
+
+        # -----------Encoder Setup---------
+        # self.inc_counter = 0
+        # self.dec_counter = 0
+        # self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+        # self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
+        # self.encoder_thread = threading.Thread(target=self.encoder.watch)
+        # self.encoder_thread.start()
+
+        # ---------------------Connect Buttons to Methods--------------------- #
+        self.ConfirmButton.clicked.connect(self.confirmMethod)
+        self.CancelButton.clicked.connect(self.cancelMethod)
+
+        self.setScreenLocation()
+
+        # ---------------------Methods--------------------- #
+    def setScreenLocation(self):
+        screen = QDesktopWidget().screenGeometry()
+        widget = self.geometry()
+        x = int((screen.width() / 2) - (widget.width() / 2))
+        y = int((screen.height() - widget.height()) / 2)
+        self.move(x+5, y+60)
+
+    def increment(self, scale_position):
+        if self.inc_counter > 1:
+            self.plusClicked()
+            self.inc_counter = 0
+            self.dec_counter = 0
+        else:
+            self.inc_counter += 1
+
+    def decrement(self, scale_position):
+        if self.dec_counter > 1:
+            self.minusClicked()
+            self.dec_counter = 0
+            self.inc_counter = 0
+        else:
+            self.dec_counter += 1
+
+    def plusClicked(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
+
+        if self.IERatioButton.isChecked():
+            if I_Ratio >= E_Ratio:
+                I_Ratio += .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            elif E_Ratio > I_Ratio:
+                E_Ratio -= .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
+
+        elif self.RateButton.isChecked():
+            Rate += 1
+            self.RateButton.setText("{}\nb/min".format(str(Rate)))
+            shared.set('Rate', Rate)
+
+        elif self.FlowtriggerButton.isChecked():
+            Flowtrigger += .5
+            self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
+            shared.set('Flowtrigger', Flowtrigger)
+
+    def minusClicked(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
+
+        if self.IERatioButton.isChecked():
+            if E_Ratio >= I_Ratio:
+                E_Ratio += .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            elif I_Ratio > E_Ratio:
+                I_Ratio -= .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
+
+        elif self.RateButton.isChecked():
+            Rate -= 1
+            self.RateButton.setText("{}\nb/min".format(str(Rate)))
+            shared.set('Rate', Rate)
+
+        elif self.FlowtriggerButton.isChecked():
+            Flowtrigger -= .5
+            self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
+            shared.set('Flowtrigger', Flowtrigger)
+
+    def cancelMethod(self):
+        self.close()
+
+    def confirmMethod(self):
         self.close()
 
 

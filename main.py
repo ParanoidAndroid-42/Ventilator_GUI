@@ -279,7 +279,7 @@ class Home(QtWidgets.QMainWindow):
 
         self.setScreenLocation()
         #self.show()
-        self.showFullScreen()  # Show the GUI
+        self.show()  # Show the GUI
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
@@ -420,7 +420,7 @@ class Home(QtWidgets.QMainWindow):
 
     def openControlsWindow(self):
         self.ControlsWindow = Controls()
-        self.ControlsButton.show()
+        self.ControlsWindow.show()
 
 
 # ---------------------Modes Window Class--------------------- #
@@ -545,7 +545,7 @@ class Controls(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x-100, y+120)
+        self.move(x+5, y+60)
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
