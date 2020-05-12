@@ -115,7 +115,11 @@ while True:
     I_Ratio = float(shared.get('I'))
     E_Ratio = float(shared.get('E'))
     Vt = int(shared.get('Vt'))
+    period = 60 / BPM
     V = Vt
+    inhaleTime = (period * (I_Ratio / (I_Ratio + E_Ratio)))
+    exhaleTime = (period * (E_Ratio / (I_Ratio + E_Ratio)))
+    
     shared.set('breathCounter', breathCounter)
     if breathCounter < 6:
         breathCounter += 1
