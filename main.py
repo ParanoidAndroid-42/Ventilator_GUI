@@ -18,6 +18,10 @@ shared.set('Vt', Vt)
 Pcontrol = 9
 PEEP = 5
 Oxygen = 50
+Rate = 0
+I_Ratio = 1
+E_Ratio = 1
+Flowtrigger = 5
 PatHeight = 174
 PatIBW = 0
 PCMode = False
@@ -266,6 +270,7 @@ class Home(QtWidgets.QMainWindow):
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
+        self.ControlsButton.clicked.connect(self.openControlsWindow())
         #self.VolPresButton.clicked.connect(self.buttonState)
         #self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
@@ -413,6 +418,10 @@ class Home(QtWidgets.QMainWindow):
         self.SystemWindow = System()
         self.SystemWindow.show()
 
+    def openControlsWindow(self):
+        self.ControlsWindow = Controls()
+        self.ControlsButton.show()
+
 
 # ---------------------Modes Window Class--------------------- #
 class Modes(QtWidgets.QMainWindow):
@@ -511,7 +520,18 @@ class Controls(QtWidgets.QMainWindow):
 
         # ---------------------Find Widgets--------------------- #
         self.ConfirmButton = self.findChild(QtWidgets.QPushButton, 'Confirm')
-        self.CancelButton = self.findChild(QtWidgets.QPushButton, 'cancel')
+        self.CancelButton = self.findChild(QtWidgets.QPushButton, 'Cancel')
+        self.IERatioButton = self.findChild(QtWidgets.QPushButton, 'IERatio')
+        self.RateButton = self.findChild(QtWidgets.QPushButton, 'Rate')
+        self.FlowtriggerButton = self.findChild(QtWidgets.QPushButton, 'Flowtrigger')
+
+        # -----------Encoder Setup---------
+        self.inc_counter = 0
+        self.dec_counter = 0
+        self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+        self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
+        self.encoder_thread = threading.Thread(target=self.encoder.watch)
+        self.encoder_thread.start()
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ConfirmButton.clicked.connect(self.confirmMethod)
@@ -527,8 +547,72 @@ class Controls(QtWidgets.QMainWindow):
         y = int((screen.height() - widget.height()) / 2)
         self.move(x-100, y+120)
 
+    def increment(self, scale_position):
+        if self.inc_counter > 1:
+            self.plusClicked()
+            self.inc_counter = 0
+            self.dec_counter = 0
+        else:
+            self.inc_counter += 1
+
+    def decrement(self, scale_position):
+        if self.dec_counter > 1:
+            self.minusClicked()
+            self.dec_counter = 0
+            self.inc_counter = 0
+        else:
+            self.dec_counter += 1
+
+    def plusClicked(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
+
+        if self.IERatioButton.isChecked():
+            if I_Ratio >= E_Ratio:
+                I_Ratio += .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            elif E_Ratio > I_Ratio:
+                E_Ratio -= .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
+
+        elif self.RateButton.isChecked():
+            Rate += 1
+            self.RateButton.setText("{}\nb/min".format(str(Rate)))
+            shared.set('Rate', Rate)
+
+        elif self.FlowtriggerButton.isChecked():
+            Flowtrigger += .5
+            self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
+            shared.set('Flowtrigger', Flowtrigger)
+
+
+    def minusClicked(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
+
+        if self.IERatioButton.isChecked():
+            if E_Ratio >= I_Ratio:
+                E_Ratio += .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            elif I_Ratio > E_Ratio:
+                I_Ratio -= .1
+                self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
+
+        elif self.RateButton.isChecked():
+            Rate -= 1
+            self.RateButton.setText("{}\nb/min".format(str(Rate)))
+            shared.set('Rate', Rate)
+
+        elif self.FlowtriggerButton.isChecked():
+            Flowtrigger -= .5
+            self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
+            shared.set('Flowtrigger', Flowtrigger)
+
     def cancelMethod(self):
         self.close()
+
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class

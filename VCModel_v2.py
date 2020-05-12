@@ -20,7 +20,7 @@ EndVolume = 15  # ml
 # -------------------------
 
 R = 1     # Airway resistance
-Vt = shared.get('Vt')  # Volume
+Vt = int(shared.get('Vt'))  # Volume
 t = 2     # Inhale time
 s = 5     # Graph ratio constant
 BPM = 14
@@ -111,7 +111,7 @@ def dwell():
 
 
 while True:
-    Vt = shared.get('Vt')
+    Vt = int(shared.get('Vt'))
     V = Vt
     shared.set('breathCounter', breathCounter)
     if breathCounter < 6:
