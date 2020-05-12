@@ -301,6 +301,7 @@ class Home(QtWidgets.QMainWindow):
             self.curve.setPen(pg.mkPen('g'))
             self.timer.timeout.connect(self.volumeUpdater)
             self.timer.start(0)
+            self.volumeFirstRun = False
         else:
             self.timer.timeout.connect(self.volumeUpdater)
 
@@ -333,6 +334,7 @@ class Home(QtWidgets.QMainWindow):
             self.curve.setPen(pg.mkPen('m', width=2))
             self.timer.timeout.connect(self.flowRateUpdater)
             self.timer.start(0)
+            self.flowFirstRun = False
         else:
             self.timer.timeout.connect(self.flowRateUpdater)
 
