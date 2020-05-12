@@ -111,6 +111,8 @@ def dwell():
 
 
 while True:
+    Vt = shared.get('Vt')
+    V = Vt
     shared.set('breathCounter', breathCounter)
     if breathCounter < 6:
         breathCounter += 1
