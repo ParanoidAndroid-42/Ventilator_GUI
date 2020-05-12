@@ -14,6 +14,7 @@ Xscale = 100
 
 # ---------------------Default Values--------------------- #
 Vt = 510
+shared.set('Vt', Vt)
 Pcontrol = 9
 PEEP = 5
 Oxygen = 50
@@ -76,7 +77,7 @@ class Monitoring(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x - 450, y + 150)
+        self.move(x - 400, y + 120)
 
     def setFlow(self):
         global StopVolume, StopFlow
@@ -370,6 +371,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt += 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol += 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -387,6 +389,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt -= 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol -= 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))

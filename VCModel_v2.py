@@ -20,7 +20,7 @@ EndVolume = 15  # ml
 # -------------------------
 
 R = 1     # Airway resistance
-Vt = 500  # Volume
+Vt = shared.get('Vt')  # Volume
 t = 2     # Inhale time
 s = 5     # Graph ratio constant
 BPM = 14
