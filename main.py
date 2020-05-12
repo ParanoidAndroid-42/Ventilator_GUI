@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5 import QtWidgets, QtCore, uic
 from pyky040 import pyky040
 import pyqtgraph as pg
+import subprocess
 import threading
 import sys
 
@@ -565,7 +566,6 @@ class Controls(QtWidgets.QMainWindow):
 
     def plusClicked(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger
-
         if self.IERatioButton.isChecked():
             if I_Ratio >= E_Ratio:
                 I_Ratio = round(I_Ratio + .1, 2)
@@ -618,5 +618,6 @@ class Controls(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
-
 app.exec_()  # Start the application
+
+subprocess.Popen(['python3', 'VCModel_v2.py'])

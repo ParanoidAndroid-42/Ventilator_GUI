@@ -128,7 +128,7 @@ while True:
         inhaleState = False
         holdState = True
         measuredInhaleTime = time.time() - start
-        print("Inhale time: {} seconds".format(round(time.time() - start, 2)))
+        #print("Inhale time: {} seconds".format(round(time.time() - start, 2)))
 
     if holdState:
         start = time.time()
@@ -143,7 +143,7 @@ while True:
         exhaleState = False
         dwellState = True
         measuredExhaleTime = time.time() - start
-        print("Exhale time: {} seconds".format(round(time.time() - start, 2)))
+        #print("Exhale time: {} seconds".format(round(time.time() - start, 2)))
 
     if dwellState:
         start = time.time()
