@@ -76,7 +76,7 @@ class Monitoring(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x - 350, y + 150)
+        self.move(x - 450, y + 150)
 
     def setFlow(self):
         global StopVolume, StopFlow
@@ -466,7 +466,7 @@ class Modes(QtWidgets.QMainWindow):
         self.close()
 
 
-# ---------------------Modes Window Class--------------------- #
+# ---------------------System Window Class--------------------- #
 class System(QtWidgets.QMainWindow):
     def __init__(self):
         super(System, self).__init__()  # Call the inherited classes __init__ method
@@ -498,6 +498,34 @@ class System(QtWidgets.QMainWindow):
     def cancelMethod(self):
         self.close()
 
+
+# ---------------------Controls Window Class--------------------- #
+class Controls(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(System, self).__init__()  # Call the inherited classes __init__ method
+        uic.loadUi('raspberry_pi/controls.ui', self)  # Load the .ui file
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+
+        # ---------------------Find Widgets--------------------- #
+        self.ConfirmButton = self.findChild(QtWidgets.QPushButton, 'Confirm')
+        self.CancelButton = self.findChild(QtWidgets.QPushButton, 'cancel')
+
+        # ---------------------Connect Buttons to Methods--------------------- #
+        self.ConfirmButton.clicked.connect(self.confirmMethod)
+        self.CancelButton.clicked.connect(self.cancelMethod)
+
+        self.setScreenLocation()
+
+        # ---------------------Methods--------------------- #
+    def setScreenLocation(self):
+        screen = QDesktopWidget().screenGeometry()
+        widget = self.geometry()
+        x = int((screen.width() / 2) - (widget.width() / 2))
+        y = int((screen.height() - widget.height()) / 2)
+        self.move(x-100, y+120)
+
+    def cancelMethod(self):
+        self.close()
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
