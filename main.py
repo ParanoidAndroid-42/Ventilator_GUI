@@ -279,7 +279,7 @@ class Home(QtWidgets.QMainWindow):
 
         self.setScreenLocation()
         #self.show()
-        self.show()  # Show the GUI
+        self.showFullScreen()  # Show the GUI
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
@@ -568,10 +568,10 @@ class Controls(QtWidgets.QMainWindow):
 
         if self.IERatioButton.isChecked():
             if I_Ratio >= E_Ratio:
-                I_Ratio += .1
+                I_Ratio = round(I_Ratio + .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             elif E_Ratio > I_Ratio:
-                E_Ratio -= .1
+                E_Ratio = round(E_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             shared.set('I', I_Ratio)
             shared.set('E', E_Ratio)
@@ -591,10 +591,10 @@ class Controls(QtWidgets.QMainWindow):
 
         if self.IERatioButton.isChecked():
             if E_Ratio >= I_Ratio:
-                E_Ratio += .1
+                E_Ratio = round(E_Ratio + .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             elif I_Ratio > E_Ratio:
-                I_Ratio -= .1
+                I_Ratio = round(I_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             shared.set('I', I_Ratio)
             shared.set('E', E_Ratio)
