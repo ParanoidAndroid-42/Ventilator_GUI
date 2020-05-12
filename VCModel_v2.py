@@ -20,12 +20,12 @@ EndVolume = 15  # ml
 # -------------------------
 
 R = 1     # Airway resistance
-Vt = int(shared.get('Vt'))  # Volume
+Vt = 400  # Volume
 t = 2     # Inhale time
 s = 5     # Graph ratio constant
-BPM = int(shared.get('Rate'))
-I_Ratio = float(shared.get('I'))
-E_Ratio = float(shared.get('E'))
+BPM = 14
+I_Ratio = 1
+E_Ratio = 1
 
 period = 60/BPM
 V = Vt

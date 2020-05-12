@@ -643,4 +643,4 @@ app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QAppli
 homeWindow = Home()  # Create an instance of our class
 app.exec_()  # Start the application
 
-subprocess.Popen(['python3', 'VCModel_v2.py'])
+#subprocess.Popen(['python3', 'VCModel_v2.py'])
