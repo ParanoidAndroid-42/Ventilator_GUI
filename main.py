@@ -253,6 +253,8 @@ class Home(QtWidgets.QMainWindow):
         self.timer = QtCore.QTimer()
         self.volumeData = [0]
         self.flowData = [0]
+        self.volumeFirstRun = True
+        self.flowFirstRun = True
         for i in range(Xscale*graphResolution):
             self.volumeData.append(0)
         for i in range(Xscale*graphResolution):
@@ -290,14 +292,17 @@ class Home(QtWidgets.QMainWindow):
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
         global Xscale, graphResolution, StopVolume
-        self.graph.setMouseEnabled(x=False, y=False)
-        self.graph.setMenuEnabled(enableMenu=False)
-        self.graph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
-        self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
-        self.graph.setLabel("left", text="Volume ml")
-        self.curve.setPen(pg.mkPen('g'))
-        self.timer.timeout.connect(self.volumeUpdater)
-        self.timer.start(0)
+        if self.volumeFirstRun:
+            self.graph.setMouseEnabled(x=False, y=False)
+            self.graph.setMenuEnabled(enableMenu=False)
+            self.graph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
+            self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
+            self.graph.setLabel("left", text="Volume ml")
+            self.curve.setPen(pg.mkPen('g'))
+            self.timer.timeout.connect(self.volumeUpdater)
+            self.timer.start(0)
+        else:
+            self.timer.timeout.connect(self.volumeUpdater)
 
     def volumeUpdater(self):
         global Xscale, graphResolution, StopVolume
@@ -317,18 +322,19 @@ class Home(QtWidgets.QMainWindow):
             #     self.curve.setData(self.volumeData, antialias=True)
 
     def flowRatePlotter(self):
-        global Xscale, graphResolution, StopFlow
-        self.graph.setMouseEnabled(x=False, y=False)
-        self.graph.setMenuEnabled(enableMenu=False)
-        self.graph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
-        self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
-        #self.graph.addLine(y=0, x=None)
-        self.graph.setLabel("left", text="Flow L/min")
-        self.curve.setPen(pg.mkPen('m', width=2))
-        self.timer.timeout.connect(self.flowRateUpdater)
-        self.timer.start(0)
-        if StopFlow:
-            self.timer.stop()
+        global Xscale, graphResolution
+        if self.flowFirstRun:
+            self.graph.setMouseEnabled(x=False, y=False)
+            self.graph.setMenuEnabled(enableMenu=False)
+            self.graph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
+            self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
+            #self.graph.addLine(y=0, x=None)
+            self.graph.setLabel("left", text="Flow L/min")
+            self.curve.setPen(pg.mkPen('m', width=2))
+            self.timer.timeout.connect(self.flowRateUpdater)
+            self.timer.start(0)
+        else:
+            self.timer.timeout.connect(self.flowRateUpdater)
 
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
@@ -619,9 +625,15 @@ class Controls(QtWidgets.QMainWindow):
             shared.set('Flowtrigger', Flowtrigger)
 
     def cancelMethod(self):
+        self.IERatioButton.setChecked(False)
+        self.RateButton.setChecked(False)
+        self.FlowtriggerButton.setChecked(False)
         self.close()
 
     def confirmMethod(self):
+        self.IERatioButton.setChecked(False)
+        self.RateButton.setChecked(False)
+        self.FlowtriggerButton.setChecked(False)
         self.close()
 
 
