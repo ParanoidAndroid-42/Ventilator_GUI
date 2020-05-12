@@ -15,7 +15,6 @@ Xscale = 100
 
 # ---------------------Default Values--------------------- #
 Vt = 510
-shared.set('Vt', Vt)
 Pcontrol = 9
 PEEP = 5
 Oxygen = 50
@@ -29,6 +28,12 @@ PCMode = False
 VCMode = True
 StopFlow = True
 StopVolume = False
+
+shared.set('Vt', Vt)
+shared.set('Rate', Rate)
+shared.set('I', I_Ratio)
+shared.set('E', E_Ratio)
+shared.set('Flowtrigger', Flowtrigger)
 # ---------------------Sensor Values--------------------- #
 flowRateSensor = 0
 pressureSensor = 0
@@ -515,6 +520,7 @@ class System(QtWidgets.QMainWindow):
 # ---------------------Controls Window Class--------------------- #
 class Controls(QtWidgets.QMainWindow):
     def __init__(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
         super(Controls, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('raspberry_pi/controls.ui', self)  # Load the .ui file
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -539,6 +545,9 @@ class Controls(QtWidgets.QMainWindow):
         self.CancelButton.clicked.connect(self.cancelMethod)
 
         self.setScreenLocation()
+        self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
+        self.RateButton.setText("{}\nb/min".format(str(Rate)))
+        self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
 
         # ---------------------Methods--------------------- #
     def setScreenLocation(self):
