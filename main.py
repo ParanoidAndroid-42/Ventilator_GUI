@@ -18,7 +18,7 @@ shared.set('Vt', Vt)
 Pcontrol = 9
 PEEP = 5
 Oxygen = 50
-Rate = 0
+Rate = 14
 I_Ratio = 1
 E_Ratio = 1
 Flowtrigger = 5

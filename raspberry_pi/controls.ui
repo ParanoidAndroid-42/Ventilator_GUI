@@ -104,7 +104,7 @@ QPushButton#Rate:checked {
 }</string>
     </property>
     <property name="text">
-     <string>12
+     <string>14
 b/min</string>
     </property>
     <property name="checkable">
