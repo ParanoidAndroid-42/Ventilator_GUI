@@ -270,7 +270,7 @@ class Home(QtWidgets.QMainWindow):
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
-        self.ControlsButton.clicked.connect(self.openControlsWindow())
+        self.ControlsButton.clicked.connect(self.openControlsWindow)
         #self.VolPresButton.clicked.connect(self.buttonState)
         #self.PEEPButton.clicked.connect(self.buttonState)
         #self.OxygenButton.clicked.connect(self.buttonState)
