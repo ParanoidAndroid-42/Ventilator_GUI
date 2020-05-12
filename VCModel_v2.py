@@ -23,9 +23,9 @@ R = 1     # Airway resistance
 Vt = int(shared.get('Vt'))  # Volume
 t = 2     # Inhale time
 s = 5     # Graph ratio constant
-BPM = shared.get('Rate')
-I_Ratio = shared.get('I')
-E_Ratio = shared.get('E')
+BPM = int(shared.get('Rate'))
+I_Ratio = float(shared.get('I'))
+E_Ratio = float(shared.get('E'))
 
 period = 60/BPM
 V = Vt
@@ -111,9 +111,9 @@ def dwell():
 
 
 while True:
-    BPM = shared.get('Rate')
-    I_Ratio = shared.get('I')
-    E_Ratio = shared.get('E')
+    BPM = int(shared.get('Rate'))
+    I_Ratio = float(shared.get('I'))
+    E_Ratio = float(shared.get('E'))
     Vt = int(shared.get('Vt'))
     V = Vt
     shared.set('breathCounter', breathCounter)
