@@ -514,7 +514,7 @@ class System(QtWidgets.QMainWindow):
 # ---------------------Controls Window Class--------------------- #
 class Controls(QtWidgets.QMainWindow):
     def __init__(self):
-        super(System, self).__init__()  # Call the inherited classes __init__ method
+        super(Controls, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('raspberry_pi/controls.ui', self)  # Load the .ui file
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
 
@@ -586,7 +586,6 @@ class Controls(QtWidgets.QMainWindow):
             self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
             shared.set('Flowtrigger', Flowtrigger)
 
-
     def minusClicked(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger
 
@@ -611,6 +610,9 @@ class Controls(QtWidgets.QMainWindow):
             shared.set('Flowtrigger', Flowtrigger)
 
     def cancelMethod(self):
+        self.close()
+
+    def confirmMethod(self):
         self.close()
 
 
