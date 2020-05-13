@@ -11,7 +11,7 @@ pg.setConfigOption('background', (10, 10, 30))
 graphResolution = 10
 Xscale = 100
 
-testMode = True
+testMode = False
 if not testMode:
     from pyky040 import pyky040
 # ---------------------Default Values--------------------- #
@@ -523,7 +523,7 @@ class System(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x-100, y+120)
+        self.move(x-50, y-100)
 
     def shutdownMethod(self):
         homeWindow.close()

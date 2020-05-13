@@ -70,7 +70,7 @@ def inhale():
             if lungVolume >= 0:
                 shared.set('lungVolume', int(lungVolume))
 
-            flow = (.5 * (x - T_full) ** 2)
+            flow = (.5 * (x - inhaleTime) ** 2)
             shared.set('flow', (flow * flowMultiplier))
 
 
@@ -98,7 +98,7 @@ def exhale():
             lungVolume = Vt * math.e ** (-(x * s) / exhaleTime)
             shared.set('lungVolume', int(lungVolume))
 
-            flow = (.5 * -(x - T_out) ** 2)
+            flow = (.5 * -(x - exhaleTime) ** 2)
             shared.set('flow', (flow * flowMultiplier))
 
 
