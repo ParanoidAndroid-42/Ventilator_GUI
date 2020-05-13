@@ -7,15 +7,16 @@ import sys
 
 import pymemcache
 shared = pymemcache.Client(('localhost', 11211))
-
 pg.setConfigOption('background', (10, 10, 30))
-graphResolution = 20
+graphResolution = 10
 Xscale = 100
 
 testMode = True
 if not testMode:
     from pyky040 import pyky040
 # ---------------------Default Values--------------------- #
+graphTimeout = 10
+
 Vt = 510
 Pcontrol = 9
 PEEP = 5
@@ -303,8 +304,9 @@ class Home(QtWidgets.QMainWindow):
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
-        global Xscale, graphResolution, StopVolume
+        global Xscale, graphResolution, graphTimeout
         if self.volumeFirstRun:
+            self.volumeGraph.hideButtons()
             self.volumeGraph.setMouseEnabled(x=False, y=False)
             self.volumeGraph.setMenuEnabled(enableMenu=False)
             self.volumeGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
@@ -312,7 +314,7 @@ class Home(QtWidgets.QMainWindow):
             self.volumeGraph.setLabel("left", text="Volume ml")
             self.volumeCurve.setPen(pg.mkPen('g'))
             self.timer.timeout.connect(self.volumeUpdater)
-            self.timer.start(0)
+            self.timer.start(graphTimeout)
             self.volumeFirstRun = False
         else:
             self.timer.timeout.connect(self.volumeUpdater)
@@ -331,8 +333,9 @@ class Home(QtWidgets.QMainWindow):
             #     self.curve.setData(self.volumeData, antialias=True)
 
     def flowRatePlotter(self):
-        global Xscale, graphResolution
+        global Xscale, graphResolution, graphTimeout
         if self.flowFirstRun:
+            self.flowGraph.hideButtons()
             self.flowGraph.setMouseEnabled(x=False, y=False)
             self.flowGraph.setMenuEnabled(enableMenu=False)
             self.flowGraph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
@@ -341,7 +344,7 @@ class Home(QtWidgets.QMainWindow):
             self.flowGraph.setLabel("left", text="Flow L/min")
             self.flowCurve.setPen(pg.mkPen('m', width=2))
             self.timer.timeout.connect(self.flowRateUpdater)
-            self.timer.start(0)
+            self.timer.start(graphTimeout)
             self.flowFirstRun = False
         else:
             self.timer.timeout.connect(self.flowRateUpdater)
