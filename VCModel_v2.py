@@ -119,7 +119,7 @@ while True:
     V = Vt
     inhaleTime = (period * (I_Ratio / (I_Ratio + E_Ratio)))
     exhaleTime = (period * (E_Ratio / (I_Ratio + E_Ratio)))
-    
+
     shared.set('breathCounter', breathCounter)
     if breathCounter < 6:
         breathCounter += 1

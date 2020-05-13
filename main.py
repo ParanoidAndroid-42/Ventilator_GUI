@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5 import QtWidgets, QtCore, uic
-from pyky040 import pyky040
 import pyqtgraph as pg
 import subprocess
 import threading
@@ -13,6 +12,9 @@ pg.setConfigOption('background', (10, 10, 30))
 graphResolution = 20
 Xscale = 100
 
+testMode = False
+if not testMode:
+    from pyky040 import pyky040
 # ---------------------Default Values--------------------- #
 Vt = 510
 Pcontrol = 9
@@ -228,7 +230,7 @@ class Home(QtWidgets.QMainWindow):
     def __init__(self):
         super(Home, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('raspberry_pi/home.ui', self)  # Load the .ui file
-        global Xscale, graphResolution
+        global Xscale, graphResolution, testMode
 
         # ---------------------Find Widgets--------------------- #
         self.ModesButton = self.findChild(QtWidgets.QPushButton, 'Modes')
@@ -245,11 +247,16 @@ class Home(QtWidgets.QMainWindow):
         self.ventModeLabel = self.findChild(QtWidgets.QLabel, 'Ventilation_Mode')
         self.VolPresLabel = self.findChild(QtWidgets.QLabel, 'VolPres_Label')
 
-        # Graph stuff
+        # -----------Graph Setup---------
         pg.setConfigOptions(antialias=True)
-        self.graph = self.findChild(QtWidgets.QWidget, 'graphWidget')
-        self.xAxis = self.graph.getAxis("bottom")
-        self.curve = self.graph.getPlotItem().plot()
+        self.volumeGraph = self.findChild(QtWidgets.QWidget, 'VolumeWidget')
+        self.volumeXAxis = self.volumeGraph.getAxis("bottom")
+        self.volumeCurve = self.volumeGraph.getPlotItem().plot()
+
+        self.flowGraph = self.findChild(QtWidgets.QWidget, 'FlowWidget')
+        self.flowXAxis = self.flowGraph.getAxis("bottom")
+        self.flowCurve = self.flowGraph.getPlotItem().plot()
+
         self.timer = QtCore.QTimer()
         self.volumeData = [0]
         self.flowData = [0]
@@ -262,12 +269,13 @@ class Home(QtWidgets.QMainWindow):
         self.dataIndex = 0
 
         # -----------Encoder Setup---------
-        self.inc_counter = 0
-        self.dec_counter = 0
-        self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
-        self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
-        self.encoder_thread = threading.Thread(target=self.encoder.watch)
-        self.encoder_thread.start()
+        if not testMode:
+            self.inc_counter = 0
+            self.dec_counter = 0
+            self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+            self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
+            self.encoder_thread = threading.Thread(target=self.encoder.watch)
+            self.encoder_thread.start()
 
         # -----------For testing-----------
         #self.plusminus = PlusMinus()
@@ -276,7 +284,6 @@ class Home(QtWidgets.QMainWindow):
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
-        self.MonitoringButton.clicked.connect(self.openMonitoringWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
         self.ControlsButton.clicked.connect(self.openControlsWindow)
         #self.VolPresButton.clicked.connect(self.buttonState)
@@ -286,19 +293,24 @@ class Home(QtWidgets.QMainWindow):
         #self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
+        self.volumePlotter()
+        self.flowRatePlotter()
         #self.show()
-        self.showFullScreen()  # Show the GUI
+        if not testMode:
+            self.showFullScreen()  # Show the GUI
+        else:
+            self.show()
 
     # ---------------------Methods--------------------- #
     def volumePlotter(self):
         global Xscale, graphResolution, StopVolume
         if self.volumeFirstRun:
-            self.graph.setMouseEnabled(x=False, y=False)
-            self.graph.setMenuEnabled(enableMenu=False)
-            self.graph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
-            self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
-            self.graph.setLabel("left", text="Volume ml")
-            self.curve.setPen(pg.mkPen('g'))
+            self.volumeGraph.setMouseEnabled(x=False, y=False)
+            self.volumeGraph.setMenuEnabled(enableMenu=False)
+            self.volumeGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
+            self.volumeXAxis.setScale(scale=((graphResolution/100) / graphResolution))
+            self.volumeGraph.setLabel("left", text="Volume ml")
+            self.volumeCurve.setPen(pg.mkPen('g'))
             self.timer.timeout.connect(self.volumeUpdater)
             self.timer.start(0)
             self.volumeFirstRun = False
@@ -307,13 +319,9 @@ class Home(QtWidgets.QMainWindow):
 
     def volumeUpdater(self):
         global Xscale, graphResolution, StopVolume
-        if not StopVolume:
-            self.volumeData[:-1] = self.volumeData[1:]
-            self.volumeData[-1] = int(shared.get('lungVolume'))
-            self.curve.setData(self.volumeData, antialias=True)
-        elif StopVolume:
-            self.volumeData = [0]
-
+        self.volumeData[:-1] = self.volumeData[1:]
+        self.volumeData[-1] = int(shared.get('lungVolume'))
+        self.volumeCurve.setData(self.volumeData, antialias=True)
             # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
             #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
             #     self.curve.setData(self.volumeData)
@@ -325,13 +333,13 @@ class Home(QtWidgets.QMainWindow):
     def flowRatePlotter(self):
         global Xscale, graphResolution
         if self.flowFirstRun:
-            self.graph.setMouseEnabled(x=False, y=False)
-            self.graph.setMenuEnabled(enableMenu=False)
-            self.graph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
-            self.xAxis.setScale(scale=((graphResolution/100) / graphResolution))
+            self.flowGraph.setMouseEnabled(x=False, y=False)
+            self.flowGraph.setMenuEnabled(enableMenu=False)
+            self.flowGraph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
+            self.flowXAxis.setScale(scale=((graphResolution/100) / graphResolution))
             #self.graph.addLine(y=0, x=None)
-            self.graph.setLabel("left", text="Flow L/min")
-            self.curve.setPen(pg.mkPen('m', width=2))
+            self.flowGraph.setLabel("left", text="Flow L/min")
+            self.flowCurve.setPen(pg.mkPen('m', width=2))
             self.timer.timeout.connect(self.flowRateUpdater)
             self.timer.start(0)
             self.flowFirstRun = False
@@ -340,12 +348,9 @@ class Home(QtWidgets.QMainWindow):
 
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
-        if not StopFlow:
-            self.flowData[:-1] = self.flowData[1:]
-            self.flowData[-1] = int(float(shared.get('flow')))
-            self.curve.setData(self.flowData, antialias=True)
-        elif StopFlow:
-            self.flowData = [0]
+        self.flowData[:-1] = self.flowData[1:]
+        self.flowData[-1] = int(float(shared.get('flow')))
+        self.flowCurve.setData(self.flowData, antialias=True)
             # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
             #     #self.flowData[self.dataIndex] = slider.flowRate.value()
             #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
@@ -528,7 +533,7 @@ class System(QtWidgets.QMainWindow):
 # ---------------------Controls Window Class--------------------- #
 class Controls(QtWidgets.QMainWindow):
     def __init__(self):
-        global I_Ratio, E_Ratio, Rate, Flowtrigger
+        global I_Ratio, E_Ratio, Rate, Flowtrigger, testMode
         super(Controls, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('raspberry_pi/controls.ui', self)  # Load the .ui file
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -541,12 +546,13 @@ class Controls(QtWidgets.QMainWindow):
         self.FlowtriggerButton = self.findChild(QtWidgets.QPushButton, 'Flowtrigger')
 
         # -----------Encoder Setup---------
-        self.inc_counter = 0
-        self.dec_counter = 0
-        self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
-        self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
-        self.encoder_thread = threading.Thread(target=self.encoder.watch)
-        self.encoder_thread.start()
+        if not testMode:
+            self.inc_counter = 0
+            self.dec_counter = 0
+            self.encoder = pyky040.Encoder(CLK=17, DT=18, SW=26)
+            self.encoder.setup(loop=True, step=1, inc_callback=self.increment, dec_callback=self.decrement)
+            self.encoder_thread = threading.Thread(target=self.encoder.watch)
+            self.encoder_thread.start()
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ConfirmButton.clicked.connect(self.confirmMethod)
@@ -643,4 +649,4 @@ app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QAppli
 homeWindow = Home()  # Create an instance of our class
 app.exec_()  # Start the application
 
-#subprocess.Popen(['python3', 'VCModel_v2.py'])
+#model = subprocess.Popen(['python3', 'VCModel_v2.py'])
