@@ -325,6 +325,7 @@ class Home(QtWidgets.QMainWindow):
         self.setScreenLocation()
         self.volumePlotter()
         self.flowRatePlotter()
+        self.pressurePlotter()
         # self.show()
         if not testMode:
             self.showFullScreen()  # Show the GUI
