@@ -35,6 +35,10 @@ StopFlow = True
 StopVolume = False
 
 Vt_register = 1
+BPM_register = 2
+I_Ratio_register = 3
+E_Ratio_register = 4
+
 
 
 # --------------------Functions--------------------- #
@@ -631,13 +635,13 @@ class Controls(QtWidgets.QMainWindow):
             elif E_Ratio > I_Ratio:
                 E_Ratio = round(E_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            # shared.set('I', I_Ratio)  # -------------------------------------- Add I2C
-            # shared.set('E', E_Ratio)  # -------------------------------------- Add I2C
+            send_packet(addr, I_Ratio_register, I_Ratio)
+            send_packet(addr, E_Ratio_register, E_Ratio)
 
         elif self.RateButton.isChecked():
             Rate += 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            # shared.set('Rate', Rate)  # -------------------------------------- Add I2C
+            send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger += .5
@@ -654,13 +658,13 @@ class Controls(QtWidgets.QMainWindow):
             elif I_Ratio > E_Ratio:
                 I_Ratio = round(I_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            # shared.set('I', I_Ratio)  # -------------------------------------- Add I2C
-            # shared.set('E', E_Ratio)  # -------------------------------------- Add I2C
+            send_packet(addr, I_Ratio_register, I_Ratio)
+            send_packet(addr, E_Ratio_register, E_Ratio)
 
         elif self.RateButton.isChecked():
             Rate -= 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            # shared.set('Rate', Rate)  # -------------------------------------- Add I2C
+            send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger -= .5
