@@ -1,14 +1,12 @@
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5 import QtWidgets, QtCore, uic
-from smbus2 import SMBus
 import pyqtgraph as pg
 import subprocess
 import threading
 import sys
 
-bus = SMBus(1)
-addr = 0x8
-
+import pymemcache
+shared = pymemcache.Client(('localhost', 11211))
 pg.setConfigOption('background', (10, 10, 30))
 graphResolution = 10
 Xscale = 100
@@ -34,6 +32,11 @@ VCMode = True
 StopFlow = True
 StopVolume = False
 
+shared.set('Vt', Vt)
+shared.set('Rate', Rate)
+shared.set('I', I_Ratio)
+shared.set('E', E_Ratio)
+shared.set('Flowtrigger', Flowtrigger)
 # ---------------------Sensor Values--------------------- #
 flowRateSensor = 0
 pressureSensor = 0
@@ -82,7 +85,6 @@ class Monitoring(QtWidgets.QMainWindow):
         self.setScreenLocation()
 
         # ---------------------Methods--------------------- #
-
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
@@ -113,7 +115,8 @@ class Start(QtWidgets.QMainWindow):
         super(Start, self).__init__()  # Call the inherited classes __init__ method
         uic.loadUi('start.ui', self)  # Load the .ui file
 
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint|QtCore.Qt.WindowStaysOnTopHint)
+
 
         # ---------------------Find Widgets--------------------- #
         self.VCButton = self.findChild(QtWidgets.QPushButton, 'VC')
@@ -121,21 +124,21 @@ class Start(QtWidgets.QMainWindow):
         self.MaleButton = self.findChild(QtWidgets.QPushButton, 'Male')
         self.FemaleButton = self.findChild(QtWidgets.QPushButton, 'Female')
         self.PatHeightButton = self.findChild(QtWidgets.QPushButton, 'PatHeight')
-        self.PreopCheckButton = self.findChild(QtWidgets.QPushButton, 'PreopCheck')  # Don't need
+        self.PreopCheckButton = self.findChild(QtWidgets.QPushButton, 'PreopCheck') # Don't need
         self.StartVentilationButton = self.findChild(QtWidgets.QPushButton, 'StartVentilation')
         self.IBWLabel = self.findChild(QtWidgets.QLabel, 'IBW')
 
         # -----------For testing-----------
-        # self.plusminus = PlusMinus()
-        # self.plus = self.plusminus.plusButton
-        # self.minus = self.plusminus.minusButton
+        #self.plusminus = PlusMinus()
+        #self.plus = self.plusminus.plusButton
+        #self.minus = self.plusminus.minusButton
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.PCButton.clicked.connect(self.setPCMode)
         self.VCButton.clicked.connect(self.setVCMode)
         self.MaleButton.clicked.connect(self.maleIBW)
         self.FemaleButton.clicked.connect(self.femaleIBW)
-        # self.PatHeightButton.clicked.connect(self.buttonState)
+        #self.PatHeightButton.clicked.connect(self.buttonState)
         self.plus.clicked.connect(self.PatAddHeight)
         self.minus.clicked.connect(self.PatSubtractHeight)
         self.StartVentilationButton.clicked.connect(self.startVentilation)
@@ -151,13 +154,12 @@ class Start(QtWidgets.QMainWindow):
         self.show()
 
         # ---------------------Methods--------------------- #
-
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
         x = (screen.width() / 2) - (widget.width() / 2)
         y = (screen.height() - widget.height()) / 2
-        self.move(x - 90, y + 20)
+        self.move(x-90, y+20)
 
     # def buttonState(self):
     #     if self.PatHeightButton.isChecked():
@@ -170,22 +172,18 @@ class Start(QtWidgets.QMainWindow):
         if self.PCButton.isChecked():
             PCMode = True
             VCMode = False
-            homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">PC</span></p></body></html>")
+            homeWindow.ventModeLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">PC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
-            homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
+            homeWindow.VolPresLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
 
     def setVCMode(self):
         global PCMode, VCMode
         if self.VCButton.isChecked():
             VCMode = True
             PCMode = False
-            homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">VC</span></p></body></html>")
+            homeWindow.ventModeLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">VC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\nml".format(str(Vt)))
-            homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
+            homeWindow.VolPresLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
 
     def startVentilation(self):
         # start ventilation code
@@ -212,22 +210,18 @@ class Start(QtWidgets.QMainWindow):
     def maleIBW(self):
         global PatIBW, PatHeight, Vt, VCMode
         PatIBW = int(round(50 + (0.91 * (PatHeight - 152.4)), 0))  # Calculate IBW and round
-        Vt = 8 * PatIBW  # Calculate initial Vt setting
+        Vt = 8 * PatIBW                                            # Calculate initial Vt setting
         self.PatHeightButton.setText("{}\ncm".format(str(PatHeight)))
-        self.IBWLabel.setText(
-            "<html><head/><body><p align=\"center\"><span style=\" font-size:28pt;\">{}</span></p></body></html>".format(
-                str(PatIBW)))
+        self.IBWLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:28pt;\">{}</span></p></body></html>".format(str(PatIBW)))
         if VCMode:
             homeWindow.VolPresButton.setText("{}\nml".format(str(Vt)))
 
     def femaleIBW(self):
         global PatIBW, PatHeight, Vt, VCMode
         PatIBW = int(round(45.5 + (0.91 * (PatHeight - 152.4)), 0))  # Calculate IBW and round
-        Vt = 8 * PatIBW  # Calculate initial Vt setting
+        Vt = 8 * PatIBW                                              # Calculate initial Vt setting
         self.PatHeightButton.setText("{}\ncm".format(str(PatHeight)))
-        self.IBWLabel.setText(
-            "<html><head/><body><p align=\"center\"><span style=\" font-size:28pt;\">{}</span></p></body></html>".format(
-                str(PatIBW)))
+        self.IBWLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:28pt;\">{}</span></p></body></html>".format(str(PatIBW)))
         if VCMode:
             homeWindow.VolPresButton.setText("{}\nml".format(str(Vt)))
 
@@ -243,7 +237,7 @@ class Home(QtWidgets.QMainWindow):
         self.ModesButton = self.findChild(QtWidgets.QPushButton, 'Modes')
         self.VolPresButton = self.findChild(QtWidgets.QPushButton, 'VolPres')
         self.PEEPButton = self.findChild(QtWidgets.QPushButton, 'PEEP')
-        # self.OxygenButton = self.findChild(QtWidgets.QPushButton, 'Oxygen')
+        #self.OxygenButton = self.findChild(QtWidgets.QPushButton, 'Oxygen')
         self.ControlsButton = self.findChild(QtWidgets.QPushButton, 'Controls')
         self.AlarmsButton = self.findChild(QtWidgets.QPushButton, 'Alarms')
         self.SystemButton = self.findChild(QtWidgets.QPushButton, 'System')
@@ -269,9 +263,9 @@ class Home(QtWidgets.QMainWindow):
         self.flowData = [0]
         self.volumeFirstRun = True
         self.flowFirstRun = True
-        for i in range(Xscale * graphResolution):
+        for i in range(Xscale*graphResolution):
             self.volumeData.append(0)
-        for i in range(Xscale * graphResolution):
+        for i in range(Xscale*graphResolution):
             self.flowData.append(0)
         self.dataIndex = 0
 
@@ -285,24 +279,24 @@ class Home(QtWidgets.QMainWindow):
             self.encoder_thread.start()
 
         # -----------For testing-----------
-        # self.plusminus = PlusMinus()
-        # self.plus = self.plusminus.plusButton
-        # self.minus = self.plusminus.minusButton
+        #self.plusminus = PlusMinus()
+        #self.plus = self.plusminus.plusButton
+        #self.minus = self.plusminus.minusButton
 
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
         self.ControlsButton.clicked.connect(self.openControlsWindow)
-        # self.VolPresButton.clicked.connect(self.buttonState)
-        # self.PEEPButton.clicked.connect(self.buttonState)
-        # self.OxygenButton.clicked.connect(self.buttonState)
-        # self.plus.clicked.connect(self.plusClicked)
-        # self.minus.clicked.connect(self.minusClicked)
+        #self.VolPresButton.clicked.connect(self.buttonState)
+        #self.PEEPButton.clicked.connect(self.buttonState)
+        #self.OxygenButton.clicked.connect(self.buttonState)
+        #self.plus.clicked.connect(self.plusClicked)
+        #self.minus.clicked.connect(self.minusClicked)
 
         self.setScreenLocation()
         self.volumePlotter()
         self.flowRatePlotter()
-        # self.show()
+        #self.show()
         if not testMode:
             self.showFullScreen()  # Show the GUI
         else:
@@ -316,7 +310,7 @@ class Home(QtWidgets.QMainWindow):
             self.volumeGraph.setMouseEnabled(x=False, y=False)
             self.volumeGraph.setMenuEnabled(enableMenu=False)
             self.volumeGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
-            self.volumeXAxis.setScale(scale=((graphResolution / 100) / graphResolution))
+            self.volumeXAxis.setScale(scale=((graphResolution/100) / graphResolution))
             self.volumeGraph.setLabel("left", text="Volume ml")
             self.volumeCurve.setPen(pg.mkPen('g'))
             self.timer.timeout.connect(self.volumeUpdater)
@@ -328,24 +322,15 @@ class Home(QtWidgets.QMainWindow):
     def volumeUpdater(self):
         global Xscale, graphResolution, StopVolume
         self.volumeData[:-1] = self.volumeData[1:]
-        try:
-            string = ''
-            block = bus.read_i2c_block_data(addr, 0, 7)
-            for i in block:
-                string += chr(i)
-                
-            self.volumeData[-1] = float(string)
-            string = ''
-        except OSError:
-            print("No I2C connection\n")
+        self.volumeData[-1] = int(shared.get('lungVolume'))
         self.volumeCurve.setData(self.volumeData, antialias=True)
-        # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
-        #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
-        #     self.curve.setData(self.volumeData)
-        #     self.dataIndex += 1
-        # else: #int(shared.get('breathCounter')) == 3:
-        #     self.dataIndex = 0
-        #     self.curve.setData(self.volumeData, antialias=True)
+            # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
+            #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
+            #     self.curve.setData(self.volumeData)
+            #     self.dataIndex += 1
+            # else: #int(shared.get('breathCounter')) == 3:
+            #     self.dataIndex = 0
+            #     self.curve.setData(self.volumeData, antialias=True)
 
     def flowRatePlotter(self):
         global Xscale, graphResolution, graphTimeout
@@ -353,9 +338,9 @@ class Home(QtWidgets.QMainWindow):
             self.flowGraph.hideButtons()
             self.flowGraph.setMouseEnabled(x=False, y=False)
             self.flowGraph.setMenuEnabled(enableMenu=False)
-            self.flowGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(-100, 100), disableAutoRange=True)
-            self.flowXAxis.setScale(scale=((graphResolution / 100) / graphResolution))
-            # self.graph.addLine(y=0, x=None)
+            self.flowGraph.setRange(xRange=(0, Xscale*graphResolution), yRange=(-100, 100), disableAutoRange=True)
+            self.flowXAxis.setScale(scale=((graphResolution/100) / graphResolution))
+            #self.graph.addLine(y=0, x=None)
             self.flowGraph.setLabel("left", text="Flow L/min")
             self.flowCurve.setPen(pg.mkPen('m', width=2))
             self.timer.timeout.connect(self.flowRateUpdater)
@@ -367,16 +352,16 @@ class Home(QtWidgets.QMainWindow):
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
         self.flowData[:-1] = self.flowData[1:]
-        self.flowData[-1] = 0  # -------------------------------------- Add I2C
+        self.flowData[-1] = int(float(shared.get('flow')))
         self.flowCurve.setData(self.flowData, antialias=True)
-        # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
-        #     #self.flowData[self.dataIndex] = slider.flowRate.value()
-        #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
-        #     self.curve.setData(self.flowData)
-        #     self.dataIndex += 1
-        # elif int(shared.get('breathCounter')) == 3:
-        #     self.dataIndex = 0
-        #     self.curve.setData(self.flowData, antialias=True)
+            # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
+            #     #self.flowData[self.dataIndex] = slider.flowRate.value()
+            #     self.flowData[self.dataIndex] = int(float(shared.get('flow')))
+            #     self.curve.setData(self.flowData)
+            #     self.dataIndex += 1
+            # elif int(shared.get('breathCounter')) == 3:
+            #     self.dataIndex = 0
+            #     self.curve.setData(self.flowData, antialias=True)
 
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
@@ -413,7 +398,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt += 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
-                # shared.set('Vt', Vt)  # -------------------------------------- Add I2C
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol += 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -431,7 +416,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt -= 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
-                # shared.set('Vt', Vt)  # -------------------------------------- Add I2C
+                shared.set('Vt', Vt)
             elif PCMode:
                 Pcontrol -= 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -493,26 +478,22 @@ class Modes(QtWidgets.QMainWindow):
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x + 10, y - 60)
+        self.move(x+10, y-60)
 
     def confirm(self):
         global PCMode, VCMode
         if self.PCButton.isChecked():
             PCMode = True
             VCMode = False
-            homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">PC</span></p></body></html>")
+            homeWindow.ventModeLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">PC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
-            homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
+            homeWindow.VolPresLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
         elif self.VCButton.isChecked():
             VCMode = True
             PCMode = False
-            homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">VC</span></p></body></html>")
+            homeWindow.ventModeLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">VC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\nml".format(str(Vt)))
-            homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
+            homeWindow.VolPresLabel.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
         self.close()
 
     def cancel(self):
@@ -537,13 +518,12 @@ class System(QtWidgets.QMainWindow):
         self.setScreenLocation()
 
         # ---------------------Methods--------------------- #
-
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x - 50, y - 100)
+        self.move(x-50, y-100)
 
     def shutdownMethod(self):
         homeWindow.close()
@@ -587,13 +567,12 @@ class Controls(QtWidgets.QMainWindow):
         self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
 
         # ---------------------Methods--------------------- #
-
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()
         widget = self.geometry()
         x = int((screen.width() / 2) - (widget.width() / 2))
         y = int((screen.height() - widget.height()) / 2)
-        self.move(x + 5, y + 60)
+        self.move(x+5, y+60)
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
@@ -620,18 +599,18 @@ class Controls(QtWidgets.QMainWindow):
             elif E_Ratio > I_Ratio:
                 E_Ratio = round(E_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            # shared.set('I', I_Ratio)  # -------------------------------------- Add I2C
-            # shared.set('E', E_Ratio)  # -------------------------------------- Add I2C
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
 
         elif self.RateButton.isChecked():
             Rate += 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            # shared.set('Rate', Rate)  # -------------------------------------- Add I2C
+            shared.set('Rate', Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger += .5
             self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
-            # shared.set('Flowtrigger', Flowtrigger)  # -------------------------------------- Add I2C
+            shared.set('Flowtrigger', Flowtrigger)
 
     def minusClicked(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger
@@ -643,18 +622,18 @@ class Controls(QtWidgets.QMainWindow):
             elif I_Ratio > E_Ratio:
                 I_Ratio = round(I_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            # shared.set('I', I_Ratio)  # -------------------------------------- Add I2C
-            # shared.set('E', E_Ratio)  # -------------------------------------- Add I2C
+            shared.set('I', I_Ratio)
+            shared.set('E', E_Ratio)
 
         elif self.RateButton.isChecked():
             Rate -= 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            # shared.set('Rate', Rate)  # -------------------------------------- Add I2C
+            shared.set('Rate', Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger -= .5
             self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
-            # shared.set('Flowtrigger', Flowtrigger)  # -------------------------------------- Add I2C
+            shared.set('Flowtrigger', Flowtrigger)
 
     def cancelMethod(self):
         self.IERatioButton.setChecked(False)
@@ -673,4 +652,4 @@ app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QAppli
 homeWindow = Home()  # Create an instance of our class
 app.exec_()  # Start the application
 
-# model = subprocess.Popen(['python3', 'VCModel_v2.py'])
+#model = subprocess.Popen(['python3', 'VCModel_v2.py'])
