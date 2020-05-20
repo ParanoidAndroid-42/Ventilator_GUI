@@ -34,9 +34,20 @@ VCMode = True
 StopFlow = True
 StopVolume = False
 
-# ---------------------Sensor Values--------------------- #
-flowRateSensor = 0
-pressureSensor = 0
+Vt_register = 1
+
+
+# --------------------Functions--------------------- #
+def send_packet(address, register, value):
+    packet = []
+    while value > 255:
+        packet.append(255)
+        value -= 255
+    if value > 0:
+        packet.append(value)
+
+    packet.insert(0, register)
+    bus.write_i2c_block_data(address, 0, packet)
 
 
 # ---------------------Flow Slider Window Class--------------------- #
@@ -413,7 +424,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt += 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
-                # shared.set('Vt', Vt)  # -------------------------------------- Add I2C
+                send_packet(addr, Vt_register, Vt)
             elif PCMode:
                 Pcontrol += 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
@@ -431,7 +442,7 @@ class Home(QtWidgets.QMainWindow):
             if VCMode:
                 Vt -= 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
-                # shared.set('Vt', Vt)  # -------------------------------------- Add I2C
+                send_packet(addr, Vt_register, Vt)
             elif PCMode:
                 Pcontrol -= 1
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
