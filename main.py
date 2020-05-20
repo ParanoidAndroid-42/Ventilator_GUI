@@ -278,15 +278,24 @@ class Home(QtWidgets.QMainWindow):
         self.flowXAxis = self.flowGraph.getAxis("bottom")
         self.flowCurve = self.flowGraph.getPlotItem().plot()
 
+        self.pressureGraph = self.findChild(QtWidgets.QWidget, 'PressureWidget')
+        self.pressureXAxis = self.flowGraph.getAxis("bottom")
+        self.pressureCurve = self.flowGraph.getPlotItem().plot()
+
         self.timer = QtCore.QTimer()
         self.volumeData = [0]
         self.flowData = [0]
+        self.pressureData = [0]
         self.volumeFirstRun = True
         self.flowFirstRun = True
+        self.pressureFirstRun = True
+
         for i in range(Xscale * graphResolution):
             self.volumeData.append(0)
         for i in range(Xscale * graphResolution):
             self.flowData.append(0)
+        for i in range(Xscale * graphResolution):
+            self.pressureData.append(0)
         self.dataIndex = 0
 
         # -----------Encoder Setup---------
@@ -344,6 +353,7 @@ class Home(QtWidgets.QMainWindow):
         self.volumeData[:-1] = self.volumeData[1:]
         try:
             string = ''
+            send_packet(addr, 5, 1)
             block = bus.read_i2c_block_data(addr, 0, 7)
             for i in block:
                 string += chr(i)
@@ -391,6 +401,38 @@ class Home(QtWidgets.QMainWindow):
         # elif int(shared.get('breathCounter')) == 3:
         #     self.dataIndex = 0
         #     self.curve.setData(self.flowData, antialias=True)
+
+    def pressurePlotter(self):
+        global Xscale, graphResolution, graphTimeout
+        if self.pressureFirstRun:
+            self.pressureGraph.hideButtons()
+            self.pressureGraph.setMouseEnabled(x=False, y=False)
+            self.pressureGraph.setMenuEnabled(enableMenu=False)
+            self.pressureGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
+            self.pressureXAxis.setScale(scale=((graphResolution / 100) / graphResolution))
+            self.pressureGraph.setLabel("left", text="Volume ml")
+            self.pressureCurve.setPen(pg.mkPen('g'))
+            self.timer.timeout.connect(self.pressureUpdater)
+            self.timer.start(graphTimeout)
+            self.pressureFirstRun = False
+        else:
+            self.timer.timeout.connect(self.volumeUpdater)
+
+    def pressureUpdater(self):
+        global Xscale, graphResolution, StopVolume
+        self.pressureData[:-1] = self.pressureData[1:]
+        try:
+            string = ''
+            send_packet(addr, 7, 1)
+            block = bus.read_i2c_block_data(addr, 0, 5)
+            for i in block:
+                string += chr(i)
+
+            self.pressureData[-1] = float(string)
+            string = ''
+        except OSError:
+            print("No I2C connection\n")
+        self.pressureCurve.setData(self.pressureData, antialias=True)
 
     def setScreenLocation(self):
         screen = QDesktopWidget().screenGeometry()

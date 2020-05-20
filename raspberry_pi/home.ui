@@ -616,7 +616,7 @@ QTabBar::tab:selected{
       <enum>QTabWidget::South</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideNone</enum>
@@ -650,6 +650,24 @@ QTabBar::tab:selected{
        <string>Flow</string>
       </attribute>
       <widget class="PlotWidget" name="FlowWidget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>601</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="Pressure">
+      <attribute name="title">
+       <string>Pressure</string>
+      </attribute>
+      <widget class="PlotWidget" name="PressureWidget" native="true">
        <property name="geometry">
         <rect>
          <x>10</x>
