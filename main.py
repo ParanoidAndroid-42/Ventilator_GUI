@@ -499,6 +499,7 @@ class Home(QtWidgets.QMainWindow):
     def plusClicked(self):
         global Vt, Pcontrol, PEEP, Oxygen, VCMode, PCMode
         if self.VolPresButton.isChecked():
+            self.PEEPButton.setChecked(False)
             if VCMode:
                 Vt += 10
                 self.VolPresButton.setText("{}\nml".format(str(Vt)))
@@ -508,6 +509,7 @@ class Home(QtWidgets.QMainWindow):
                 self.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
 
         elif self.PEEPButton.isChecked():
+            self.VolPresButton.setChecked(False)
             PEEP += 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
             send_packet(addr, PEEP_register, PEEP)
