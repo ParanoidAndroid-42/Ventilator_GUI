@@ -39,6 +39,9 @@ BPM_register = 2
 I_Ratio_register = 3
 E_Ratio_register = 4
 PEEP_register = 5
+volume_register = 6
+flow_register = 7
+pressure_register = 8
 
 
 # --------------------Functions--------------------- #
@@ -355,7 +358,7 @@ class Home(QtWidgets.QMainWindow):
         self.volumeData[:-1] = self.volumeData[1:]
         try:
             string = ''
-            send_packet(addr, 5, 1)
+            send_packet(addr, volume_register, 1)
             block = bus.read_i2c_block_data(addr, 0, 7)
             for i in block:
                 string += chr(i)
@@ -425,7 +428,7 @@ class Home(QtWidgets.QMainWindow):
         self.pressureData[:-1] = self.pressureData[1:]
         try:
             string = ''
-            send_packet(addr, 7, 1)
+            send_packet(addr, pressure_register, 1)
             block = bus.read_i2c_block_data(addr, 0, 5)
             for i in block:
                 string += chr(i)
@@ -480,7 +483,7 @@ class Home(QtWidgets.QMainWindow):
             PEEP += 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
             send_packet(addr, PEEP_register, PEEP)
-            
+
         # elif self.OxygenButton.isChecked():
         #     Oxygen += 1
         #     self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
