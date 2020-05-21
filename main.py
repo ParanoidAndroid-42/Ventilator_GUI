@@ -363,7 +363,10 @@ class Home(QtWidgets.QMainWindow):
             for i in block:
                 string += chr(i)
 
-            self.volumeData[-1] = float(string)
+            try:
+                self.volumeData[-1] = float(string)
+            except ValueError:
+                self.volumeUpdater()
             string = ''
             self.warningTimeout = time.time() + 3
         except OSError:
@@ -406,7 +409,10 @@ class Home(QtWidgets.QMainWindow):
             for i in block:
                 string += chr(i)
 
-            self.flowData[-1] = float(string)
+            try:
+                self.flowData[-1] = float(string)
+            except ValueError:
+                self.flowRateUpdater()
             string = ''
             self.warningTimeout = time.time() + 3
         except OSError:
@@ -449,7 +455,10 @@ class Home(QtWidgets.QMainWindow):
             for i in block:
                 string += chr(i)
 
-            self.pressureData[-1] = float(string)
+            try:
+                self.pressureData[-1] = float(string)
+            except ValueError:
+                self.pressureUpdater()
             string = ''
             self.warningTimeout = time.time() + 3
         except OSError:
