@@ -365,6 +365,7 @@ class Home(QtWidgets.QMainWindow):
 
             self.volumeData[-1] = float(string)
             string = ''
+            self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
@@ -407,6 +408,7 @@ class Home(QtWidgets.QMainWindow):
 
             self.flowData[-1] = float(string)
             string = ''
+            self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
@@ -449,6 +451,7 @@ class Home(QtWidgets.QMainWindow):
 
             self.pressureData[-1] = float(string)
             string = ''
+            self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
