@@ -268,6 +268,7 @@ class Home(QtWidgets.QMainWindow):
         self.EventsButton = self.findChild(QtWidgets.QPushButton, 'Events')
         self.UtilitiesButton = self.findChild(QtWidgets.QPushButton, 'Utilities')
         self.MonitoringButton = self.findChild(QtWidgets.QPushButton, 'Monitoring')
+        self.WarningButton = self.findChild(QtWidgets.QPushButton, 'Warning')
 
         self.ventModeLabel = self.findChild(QtWidgets.QLabel, 'Ventilation_Mode')
         self.VolPresLabel = self.findChild(QtWidgets.QLabel, 'VolPres_Label')
@@ -320,12 +321,14 @@ class Home(QtWidgets.QMainWindow):
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
         self.ControlsButton.clicked.connect(self.openControlsWindow)
+        self.WarningButton.clicked.connect(self.warningAcknowledged)
         # self.VolPresButton.clicked.connect(self.buttonState)
         # self.PEEPButton.clicked.connect(self.buttonState)
         # self.OxygenButton.clicked.connect(self.buttonState)
         # self.plus.clicked.connect(self.plusClicked)
         # self.minus.clicked.connect(self.minusClicked)
 
+        self.WarningButton.hide()
         self.setScreenLocation()
         self.volumePlotter()
         self.flowRatePlotter()
@@ -534,6 +537,13 @@ class Home(QtWidgets.QMainWindow):
         self.ControlsWindow = Controls()
         self.ControlsWindow.show()
 
+    def triggerWarning(self, warning_number):
+        if warning_number == 1:                             # Control board disconnected
+            self.WarningButton.setText("CB Disconnected")
+            self.WarningButton.show()
+
+    def warningAcknowledged(self):
+        self.WarningButton.hide()
 
 # ---------------------Modes Window Class--------------------- #
 class Modes(QtWidgets.QMainWindow):
