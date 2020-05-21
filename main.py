@@ -396,7 +396,17 @@ class Home(QtWidgets.QMainWindow):
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
         self.flowData[:-1] = self.flowData[1:]
-        self.flowData[-1] = 0  # -------------------------------------- Add I2C
+        try:
+            string = ''
+            send_packet(addr, flow_register, 1)
+            block = bus.read_i2c_block_data(addr, 0, 7)
+            for i in block:
+                string += chr(i)
+
+            self.flowData[-1] = float(string)
+            string = ''
+        except OSError:
+            print("No I2C connection\n")
         self.flowCurve.setData(self.flowData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
         #     #self.flowData[self.dataIndex] = slider.flowRate.value()
