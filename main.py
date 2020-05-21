@@ -279,8 +279,8 @@ class Home(QtWidgets.QMainWindow):
         self.flowCurve = self.flowGraph.getPlotItem().plot()
 
         self.pressureGraph = self.findChild(QtWidgets.QWidget, 'PressureWidget')
-        self.pressureXAxis = self.flowGraph.getAxis("bottom")
-        self.pressureCurve = self.flowGraph.getPlotItem().plot()
+        self.pressureXAxis = self.pressureGraph.getAxis("bottom")
+        self.pressureCurve = self.pressureGraph.getPlotItem().plot()
 
         self.timer = QtCore.QTimer()
         self.volumeData = [0]
@@ -409,15 +409,15 @@ class Home(QtWidgets.QMainWindow):
             self.pressureGraph.hideButtons()
             self.pressureGraph.setMouseEnabled(x=False, y=False)
             self.pressureGraph.setMenuEnabled(enableMenu=False)
-            self.pressureGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 800), disableAutoRange=True)
+            self.pressureGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 20), disableAutoRange=True)
             self.pressureXAxis.setScale(scale=((graphResolution / 100) / graphResolution))
             self.pressureGraph.setLabel("left", text="Volume ml")
-            self.pressureCurve.setPen(pg.mkPen('g'))
+            self.pressureCurve.setPen(pg.mkPen('y'))
             self.timer.timeout.connect(self.pressureUpdater)
             self.timer.start(graphTimeout)
             self.pressureFirstRun = False
         else:
-            self.timer.timeout.connect(self.volumeUpdater)
+            self.timer.timeout.connect(self.pressureUpdater)
 
     def pressureUpdater(self):
         global Xscale, graphResolution, StopVolume
