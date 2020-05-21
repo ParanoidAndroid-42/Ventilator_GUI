@@ -551,6 +551,8 @@ class Home(QtWidgets.QMainWindow):
         self.SystemWindow.show()
 
     def openControlsWindow(self):
+        self.VolPresButton.setChecked(False)
+        self.PEEPButton.setChecked(False)
         self.ControlsWindow = Controls()
         self.ControlsWindow.show()
 
