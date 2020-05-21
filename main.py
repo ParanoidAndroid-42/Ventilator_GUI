@@ -318,8 +318,8 @@ class Home(QtWidgets.QMainWindow):
         self.SystemButton.clicked.connect(self.openSystemWindow)
         self.ControlsButton.clicked.connect(self.openControlsWindow)
         self.WarningButton.clicked.connect(self.warningAcknowledged)
-        # self.VolPresButton.clicked.connect(self.buttonState)
-        # self.PEEPButton.clicked.connect(self.buttonState)
+        self.VolPresButton.clicked.connect(self.buttonState)
+        self.PEEPButton.clicked.connect(self.buttonState)
         # self.OxygenButton.clicked.connect(self.buttonState)
         # self.plus.clicked.connect(self.plusClicked)
         # self.minus.clicked.connect(self.minusClicked)
@@ -474,11 +474,11 @@ class Home(QtWidgets.QMainWindow):
         y = (screen.height() - widget.height()) / 2
         self.move(x, y)
 
-    # def buttonState(self):
-    #     if self.VolPresButton.isChecked() or self.PEEPButton.isChecked():
-    #         self.plusminus.show()
-    #     else:
-    #         self.plusminus.close()
+    def buttonState(self):
+        if self.VolPresButton.isChecked():
+            self.PEEPButton.setChecked(False)
+        if self.PEEPButton.isChecked():
+            self.VolPresButton.setChecked(False)
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
