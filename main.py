@@ -326,6 +326,7 @@ class Home(QtWidgets.QMainWindow):
 
         self.WarningButton.hide()
         self.setScreenLocation()
+        self.warningTimeout = time.time() + 3
         self.volumePlotter()
         self.flowRatePlotter()
         self.pressurePlotter()
@@ -355,7 +356,6 @@ class Home(QtWidgets.QMainWindow):
     def volumeUpdater(self):
         global Xscale, graphResolution, StopVolume
         self.volumeData[:-1] = self.volumeData[1:]
-        warningTimeout = time.time() + 3
         try:
             string = ''
             send_packet(addr, volume_register, 1)
@@ -366,8 +366,9 @@ class Home(QtWidgets.QMainWindow):
             self.volumeData[-1] = float(string)
             string = ''
         except OSError:
-            if time.time() > warningTimeout:
+            if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
+                self.warningTimeout = time.time() + 3
         self.volumeCurve.setData(self.volumeData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
         #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
@@ -397,7 +398,6 @@ class Home(QtWidgets.QMainWindow):
     def flowRateUpdater(self):
         global Xscale, graphResolution, StopFlow
         self.flowData[:-1] = self.flowData[1:]
-        warningTimeout = time.time() + 3
         try:
             string = ''
             send_packet(addr, flow_register, 1)
@@ -408,8 +408,9 @@ class Home(QtWidgets.QMainWindow):
             self.flowData[-1] = float(string)
             string = ''
         except OSError:
-            if time.time() > warningTimeout:
+            if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
+                self.warningTimeout = time.time() + 3
         self.flowCurve.setData(self.flowData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
         #     #self.flowData[self.dataIndex] = slider.flowRate.value()
@@ -439,7 +440,6 @@ class Home(QtWidgets.QMainWindow):
     def pressureUpdater(self):
         global Xscale, graphResolution, StopVolume
         self.pressureData[:-1] = self.pressureData[1:]
-        warningTimeout = time.time() + 3
         try:
             string = ''
             send_packet(addr, pressure_register, 1)
@@ -450,8 +450,9 @@ class Home(QtWidgets.QMainWindow):
             self.pressureData[-1] = float(string)
             string = ''
         except OSError:
-            if time.time() > warningTimeout:
+            if time.time() > self.warningTimeout:
                 self.triggerWarning(1)
+                self.warningTimeout = time.time() + 3
         self.pressureCurve.setData(self.pressureData, antialias=True)
 
     def setScreenLocation(self):
