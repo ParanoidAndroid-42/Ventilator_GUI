@@ -312,11 +312,6 @@ class Home(QtWidgets.QMainWindow):
             self.encoder_thread = threading.Thread(target=self.encoder.watch)
             self.encoder_thread.start()
 
-        # -----------For testing-----------
-        # self.plusminus = PlusMinus()
-        # self.plus = self.plusminus.plusButton
-        # self.minus = self.plusminus.minusButton
-
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ModesButton.clicked.connect(self.openModesWindow)
         self.SystemButton.clicked.connect(self.openSystemWindow)
@@ -369,7 +364,7 @@ class Home(QtWidgets.QMainWindow):
             self.volumeData[-1] = float(string)
             string = ''
         except OSError:
-            print("No I2C connection\n")
+            self.triggerWarning(1)
         self.volumeCurve.setData(self.volumeData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
         #     self.volumeData[self.dataIndex] = int(shared.get('lungVolume'))
@@ -409,7 +404,7 @@ class Home(QtWidgets.QMainWindow):
             self.flowData[-1] = float(string)
             string = ''
         except OSError:
-            print("No I2C connection\n")
+            self.triggerWarning(1)
         self.flowCurve.setData(self.flowData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
         #     #self.flowData[self.dataIndex] = slider.flowRate.value()
@@ -449,7 +444,7 @@ class Home(QtWidgets.QMainWindow):
             self.pressureData[-1] = float(string)
             string = ''
         except OSError:
-            print("No I2C connection\n")
+            self.triggerWarning(1)
         self.pressureCurve.setData(self.pressureData, antialias=True)
 
     def setScreenLocation(self):
