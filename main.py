@@ -38,6 +38,7 @@ Vt_register = 1
 BPM_register = 2
 I_Ratio_register = 3
 E_Ratio_register = 4
+PEEP_register = 5
 
 
 # --------------------Functions--------------------- #
@@ -478,6 +479,8 @@ class Home(QtWidgets.QMainWindow):
         elif self.PEEPButton.isChecked():
             PEEP += 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
+            send_packet(addr, PEEP_register, PEEP)
+            
         # elif self.OxygenButton.isChecked():
         #     Oxygen += 1
         #     self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
@@ -496,6 +499,8 @@ class Home(QtWidgets.QMainWindow):
         elif self.PEEPButton.isChecked():
             PEEP -= 1
             self.PEEPButton.setText("{}\ncmH2O".format(str(PEEP)))
+            send_packet(addr, PEEP_register, PEEP)
+
         # elif self.OxygenButton.isChecked():
         #     Oxygen -= 1
         #     self.OxygenButton.setText("{}\n%".format(str(Oxygen)))
