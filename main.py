@@ -411,7 +411,7 @@ class Home(QtWidgets.QMainWindow):
             self.pressureGraph.setMenuEnabled(enableMenu=False)
             self.pressureGraph.setRange(xRange=(0, Xscale * graphResolution), yRange=(0, 20), disableAutoRange=True)
             self.pressureXAxis.setScale(scale=((graphResolution / 100) / graphResolution))
-            self.pressureGraph.setLabel("left", text="Volume ml")
+            self.pressureGraph.setLabel("left", text="Paw cmH2O")
             self.pressureCurve.setPen(pg.mkPen('y'))
             self.timer.timeout.connect(self.pressureUpdater)
             self.timer.start(graphTimeout)
