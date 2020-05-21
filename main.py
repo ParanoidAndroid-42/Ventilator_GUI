@@ -476,11 +476,11 @@ class Home(QtWidgets.QMainWindow):
 
     def VolPresClicked(self):
         if self.PEEPButton.isChecked():
-            self.VolPresButton.setChecked(False)
+            self.PEEPButton.setChecked(False)
 
     def PEEPClicked(self):
         if self.VolPresButton.isChecked():
-            self.PEEPButton.setChecked(False)
+            self.VolPresButton.setChecked(False)
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
