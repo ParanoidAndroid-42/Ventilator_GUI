@@ -371,7 +371,7 @@ class Home(QtWidgets.QMainWindow):
             self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
-                self.triggerWarning(1)
+                self.setWarning(1)
                 self.warningTimeout = time.time() + 3
         self.volumeCurve.setData(self.volumeData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution:  #and int(shared.get('breathCounter')) < 3: #
@@ -417,7 +417,7 @@ class Home(QtWidgets.QMainWindow):
             self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
-                self.triggerWarning(1)
+                self.setWarning(1)
                 self.warningTimeout = time.time() + 3
         self.flowCurve.setData(self.flowData, antialias=True)
         # if self.dataIndex <= Xscale*graphResolution and int(shared.get('breathCounter')) < 3:
@@ -463,7 +463,7 @@ class Home(QtWidgets.QMainWindow):
             self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
-                self.triggerWarning(1)
+                self.setWarning(1)
                 self.warningTimeout = time.time() + 3
         self.pressureCurve.setData(self.pressureData, antialias=True)
 
@@ -556,13 +556,14 @@ class Home(QtWidgets.QMainWindow):
         self.ControlsWindow = Controls()
         self.ControlsWindow.show()
 
-    def triggerWarning(self, warning_number):
+    def setWarning(self, warning_number):
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
 
     def warningAcknowledged(self):
         self.WarningButton.hide()
+
 
 # ---------------------Modes Window Class--------------------- #
 class Modes(QtWidgets.QMainWindow):
@@ -684,6 +685,9 @@ class Controls(QtWidgets.QMainWindow):
         # ---------------------Connect Buttons to Methods--------------------- #
         self.ConfirmButton.clicked.connect(self.confirmMethod)
         self.CancelButton.clicked.connect(self.cancelMethod)
+        self.IERatioButton.clicked.connect(self.IEClicked)
+        self.RateButton.clicked.connect(self.RateClicked)
+        self.FlowtriggerButton.clicked.connect(self.FlowClicked)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
@@ -775,6 +779,24 @@ class Controls(QtWidgets.QMainWindow):
         self.RateButton.setChecked(False)
         self.FlowtriggerButton.setChecked(False)
         self.close()
+
+    def IEClicked(self):
+        if self.RateButton.isChecked():
+            self.RateButton.setChecked(False)
+        if self.FlowtriggerButton.isChecked():
+            self.FlowtriggerButton.setChecked(False)
+
+    def RateClicked(self):
+        if self.IERatioButton.isChecked():
+            self.IERatioButton.setChecked(False)
+        if self.FlowtriggerButton.isChecked():
+            self.FlowtriggerButton.setChecked(False)
+
+    def FlowClicked(self):
+        if self.IERatioButton.isChecked():
+            self.IERatioButton.setChecked(False)
+        if self.RateButton.isChecked():
+            self.RateButton.setChecked(False)
 
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
