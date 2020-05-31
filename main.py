@@ -387,7 +387,7 @@ class Home(QtWidgets.QMainWindow):
             if block == block1:
                 for i in block:
                     string += chr(i)
-    
+
                 try:
                     self.flowData[-1] = float(string)
                 except ValueError:
@@ -431,15 +431,17 @@ class Home(QtWidgets.QMainWindow):
             string = ''
             send_packet(addr, pressure_register, 1)
             block = bus.read_i2c_block_data(addr, 0, 5)
-            for i in block:
-                string += chr(i)
+            block1 = bus.read_i2c_block_data(addr, 0, 5)
+            if block == block1:
+                for i in block:
+                    string += chr(i)
 
-            try:
-                self.pressureData[-1] = float(string)
-            except ValueError:
-                self.pressureUpdater()
-            string = ''
-            self.warningTimeout = time.time() + 3
+                try:
+                    self.pressureData[-1] = float(string)
+                except ValueError:
+                    self.pressureUpdater()
+                string = ''
+                self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.setWarning(1)
