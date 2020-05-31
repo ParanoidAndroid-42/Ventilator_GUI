@@ -57,30 +57,6 @@ def send_packet(address, register, value):
     packet.insert(0, register)
     bus.write_i2c_block_data(address, 0, packet)
 
-
-# ---------------------Flow Slider Window Class--------------------- #
-# class FlowSlider(QtWidgets.QMainWindow):
-#     def __init__(self):
-#         super(FlowSlider, self).__init__()  # Call the inherited classes __init__ method
-#         uic.loadUi('flowSlider.ui', self)  # Load the .ui file
-#
-#         # ---------------------Find Widgets--------------------- #
-#         self.flowRate = self.findChild(QtWidgets.QSlider, 'flowRate')
-#
-#         self.show()
-
-
-# ---------------------Plus Minus Window Class--------------------- #
-# class PlusMinus(QtWidgets.QMainWindow):
-#     def __init__(self):
-#         super(PlusMinus, self).__init__()  # Call the inherited classes __init__ method
-#         uic.loadUi('plusMinus.ui', self)  # Load the .ui file
-#
-#         # ---------------------Find Widgets--------------------- #
-#         self.plusButton = self.findChild(QtWidgets.QPushButton, 'plus')
-#         self.minusButton = self.findChild(QtWidgets.QPushButton, 'minus')
-
-
 # ---------------------Monitoring Window Class--------------------- #
 class Monitoring(QtWidgets.QMainWindow):
     def __init__(self):
@@ -360,15 +336,16 @@ class Home(QtWidgets.QMainWindow):
             string = ''
             send_packet(addr, volume_register, 1)
             block = bus.read_i2c_block_data(addr, 0, 7)
-            for i in block:
-                string += chr(i)
-
-            try:
-                self.volumeData[-1] = float(string)
-            except ValueError:
-                self.volumeUpdater()
-            string = ''
-            self.warningTimeout = time.time() + 3
+            block1 = bus.read_i2c_block_data(addr, 0, 7)
+            if block == block1:
+                for i in block:
+                    string += chr(i)
+                try:
+                    self.volumeData[-1] = float(string)
+                except ValueError:
+                    self.volumeUpdater()
+                string = ''
+                self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.setWarning(1)
@@ -406,15 +383,17 @@ class Home(QtWidgets.QMainWindow):
             string = ''
             send_packet(addr, flow_register, 1)
             block = bus.read_i2c_block_data(addr, 0, 7)
-            for i in block:
-                string += chr(i)
-
-            try:
-                self.flowData[-1] = float(string)
-            except ValueError:
-                self.flowRateUpdater()
-            string = ''
-            self.warningTimeout = time.time() + 3
+            block1 = bus.read_i2c_block_data(addr, 0, 7)
+            if block == block1:
+                for i in block:
+                    string += chr(i)
+    
+                try:
+                    self.flowData[-1] = float(string)
+                except ValueError:
+                    self.flowRateUpdater()
+                string = ''
+                self.warningTimeout = time.time() + 3
         except OSError:
             if time.time() > self.warningTimeout:
                 self.setWarning(1)
