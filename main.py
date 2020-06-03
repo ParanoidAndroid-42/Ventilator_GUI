@@ -296,15 +296,14 @@ class Home(QtWidgets.QMainWindow):
         self.WarningButton.clicked.connect(self.warningAcknowledged)
         self.VolPresButton.clicked.connect(self.VolPresClicked)
         self.PEEPButton.clicked.connect(self.PEEPClicked)
-
-        self.ControlsWindow = Controls()
-        self.ControlsWindow.RateButton.clicked.connect(self.controlsWindowDeselect)
-        self.ControlsWindow.IERatioButton.clicked.connect(self.controlsWindowDeselect)
-        self.ControlsWindow.FlowtriggerButton.clicked.connect(self.controlsWindowDeselect)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
         # self.OxygenButton.clicked.connect(self.buttonState)
         # self.plus.clicked.connect(self.plusClicked)
         # self.minus.clicked.connect(self.minusClicked)
 
+        self.ControlsWindow = Controls()
         self.WarningButton.hide()
         self.setScreenLocation()
         self.warningTimeout = time.time() + 3
