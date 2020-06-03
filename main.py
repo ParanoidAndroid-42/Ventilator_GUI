@@ -44,6 +44,7 @@ volume_register = 6
 flow_register = 7
 pressure_register = 8
 
+
 # --------------------Functions--------------------- #
 def send_packet(address, register, value):
     packet = []
@@ -653,7 +654,7 @@ class System(QtWidgets.QMainWindow):
 
 
 # ---------------------Controls Window Class--------------------- #
-class Controls(QtWidgets.QMainWindow):
+class Controls(QtWidgets.QMainWindow, Home):
     def __init__(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger, testMode
         super(Controls, self).__init__()  # Call the inherited classes __init__ method
@@ -682,8 +683,8 @@ class Controls(QtWidgets.QMainWindow):
         self.IERatioButton.clicked.connect(self.IEClicked)
         self.RateButton.clicked.connect(self.RateClicked)
         self.FlowtriggerButton.clicked.connect(self.FlowClicked)
-        homeWindow().PEEPButton.clicked.connect(self.controlsWindowDeselect)
-        homeWindow().VolPresButton.clicked.connect(self.controlsWindowDeselect)
+        super.PEEPButton.clicked.connect(self.controlsWindowDeselect)
+        super.VolPresButton.clicked.connect(self.controlsWindowDeselect)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
