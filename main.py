@@ -458,16 +458,10 @@ class Home(QtWidgets.QMainWindow):
     def VolPresClicked(self):
         if self.PEEPButton.isChecked():
             self.PEEPButton.setChecked(False)
-            self.ControlsWindow.RateButton.setChecked(False)
-            self.ControlsWindow.IERatioButton.setChecked(False)
-            self.ControlsWindow.FlowtriggerButton.setChecked(False)
 
     def PEEPClicked(self):
         if self.VolPresButton.isChecked():
             self.VolPresButton.setChecked(False)
-            self.ControlsWindow.RateButton.setChecked(False)
-            self.ControlsWindow.IERatioButton.setChecked(False)
-            self.ControlsWindow.FlowtriggerButton.setChecked(False)
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
@@ -770,32 +764,20 @@ class Controls(QtWidgets.QMainWindow):
     def IEClicked(self):
         if self.RateButton.isChecked():
             self.RateButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
         if self.FlowtriggerButton.isChecked():
             self.FlowtriggerButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
 
     def RateClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
         if self.FlowtriggerButton.isChecked():
             self.FlowtriggerButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
 
     def FlowClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
         if self.RateButton.isChecked():
             self.RateButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
 
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
