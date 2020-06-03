@@ -296,6 +296,9 @@ class Home(QtWidgets.QMainWindow):
         self.WarningButton.clicked.connect(self.warningAcknowledged)
         self.VolPresButton.clicked.connect(self.VolPresClicked)
         self.PEEPButton.clicked.connect(self.PEEPClicked)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
+        self.ControlsWindow.clicked.connect(self.controlsWindowDeselect)
         # self.OxygenButton.clicked.connect(self.buttonState)
         # self.plus.clicked.connect(self.plusClicked)
         # self.minus.clicked.connect(self.minusClicked)
@@ -458,16 +461,12 @@ class Home(QtWidgets.QMainWindow):
     def VolPresClicked(self):
         if self.PEEPButton.isChecked():
             self.PEEPButton.setChecked(False)
-            self.ControlsWindow.RateButton.setChecked(False)
-            self.ControlsWindow.IERatioButton.setChecked(False)
-            self.ControlsWindow.FlowtriggerButton.setChecked(False)
+            self.controlsWindowDeselect()
 
     def PEEPClicked(self):
         if self.VolPresButton.isChecked():
             self.VolPresButton.setChecked(False)
-            self.ControlsWindow.RateButton.setChecked(False)
-            self.ControlsWindow.IERatioButton.setChecked(False)
-            self.ControlsWindow.FlowtriggerButton.setChecked(False)
+            self.controlsWindowDeselect()
 
     def increment(self, scale_position):
         if self.inc_counter > 1:
@@ -551,6 +550,14 @@ class Home(QtWidgets.QMainWindow):
     def warningAcknowledged(self):
         self.WarningButton.hide()
 
+    def controlsWindowDeselect(self):
+        self.ControlsWindow.RateButton.setChecked(False)
+        self.ControlsWindow.IERatioButton.setChecked(False)
+        self.ControlsWindow.FlowtriggerButton.setChecked(False)
+
+    def homeWindowDeselect(self):
+        self.PEEPButton.setChecked(False)
+        self.VolPresButton.setChecked(False)
 
 # ---------------------Modes Window Class--------------------- #
 class Modes(QtWidgets.QMainWindow):
@@ -675,6 +682,8 @@ class Controls(QtWidgets.QMainWindow):
         self.IERatioButton.clicked.connect(self.IEClicked)
         self.RateButton.clicked.connect(self.RateClicked)
         self.FlowtriggerButton.clicked.connect(self.FlowClicked)
+        homeWindow.PEEPButton.clicked.connect(self.controlsWindowDeselect)
+        homeWindow.VolPresButton.clicked.connect(self.controlsWindowDeselect)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
@@ -770,33 +779,35 @@ class Controls(QtWidgets.QMainWindow):
     def IEClicked(self):
         if self.RateButton.isChecked():
             self.RateButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
         if self.FlowtriggerButton.isChecked():
             self.FlowtriggerButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
 
     def RateClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
         if self.FlowtriggerButton.isChecked():
             self.FlowtriggerButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
 
     def FlowClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
         if self.RateButton.isChecked():
             self.RateButton.setChecked(False)
-            homeWindow.PEEPButton.setChecked(False)
-            homeWindow.VolPresButton.setChecked(False)
+            self.homeWindowDeselect()
 
+    def controlsWindowDeselect(self):
+        self.IERatioButton.setChecked(False)
+        self.RateButton.setChecked(False)
+        self.FlowtriggerButton.setChecked(False)
+
+    def homeWindowDeselect(self):
+        homeWindow.PEEPButton.setChecked(False)
+        homeWindow.VolPresButton.setChecked(False)
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
