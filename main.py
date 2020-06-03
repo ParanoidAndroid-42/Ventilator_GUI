@@ -303,6 +303,7 @@ class Home(QtWidgets.QMainWindow):
         # self.plus.clicked.connect(self.plusClicked)
         # self.minus.clicked.connect(self.minusClicked)
 
+        self.ControlsWindow = Controls()
         self.WarningButton.hide()
         self.setScreenLocation()
         self.warningTimeout = time.time() + 3
@@ -539,7 +540,6 @@ class Home(QtWidgets.QMainWindow):
     def openControlsWindow(self):
         self.VolPresButton.setChecked(False)
         self.PEEPButton.setChecked(False)
-        self.ControlsWindow = Controls()
         self.ControlsWindow.show()
 
     def setWarning(self, warning_number):
