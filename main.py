@@ -687,8 +687,8 @@ class Controls(QtWidgets.QMainWindow):
         self.IERatioButton.clicked.connect(self.IEClicked)
         self.RateButton.clicked.connect(self.RateClicked)
         self.FlowtriggerButton.clicked.connect(self.FlowClicked)
-        #homeWindow.PEEPButton.clicked.connect(self.controlsWindowDeselect)
-        #homeWindow.VolPresButton.clicked.connect(self.controlsWindowDeselect)
+        homeWindow.PEEPButton.clicked.connect(self.controlsWindowDeselect)
+        homeWindow.VolPresButton.clicked.connect(self.controlsWindowDeselect)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
