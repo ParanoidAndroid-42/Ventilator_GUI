@@ -654,7 +654,7 @@ class System(QtWidgets.QMainWindow):
 
 
 # ---------------------Controls Window Class--------------------- #
-class Controls(QtWidgets.QMainWindow):
+class Controls(QtWidgets.QMainWindow, Home):
     def __init__(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger, testMode
         super(Controls, self).__init__()  # Call the inherited classes __init__ method
@@ -683,8 +683,8 @@ class Controls(QtWidgets.QMainWindow):
         self.IERatioButton.clicked.connect(self.IEClicked)
         self.RateButton.clicked.connect(self.RateClicked)
         self.FlowtriggerButton.clicked.connect(self.FlowClicked)
-        homeWindow.PEEPButton.clicked.connect(self.controlsWindowDeselect)
-        homeWindow.VolPresButton.clicked.connect(self.controlsWindowDeselect)
+        super.PEEPButton.clicked.connect(self.controlsWindowDeselect)
+        super.VolPresButton.clicked.connect(self.controlsWindowDeselect)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
@@ -807,8 +807,8 @@ class Controls(QtWidgets.QMainWindow):
         self.FlowtriggerButton.setChecked(False)
 
     def homeWindowDeselect(self):
-        homeWindow.PEEPButton.setChecked(False)
-        homeWindow.VolPresButton.setChecked(False)
+        super.PEEPButton.setChecked(False)
+        super.VolPresButton.setChecked(False)
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
 homeWindow = Home()  # Create an instance of our class
