@@ -555,10 +555,6 @@ class Home(QtWidgets.QMainWindow):
         self.ControlsWindow.IERatioButton.setChecked(False)
         self.ControlsWindow.FlowtriggerButton.setChecked(False)
 
-    def homeWindowDeselect(self):
-        self.PEEPButton.setChecked(False)
-        self.VolPresButton.setChecked(False)
-
 # ---------------------Modes Window Class--------------------- #
 class Modes(QtWidgets.QMainWindow):
     def __init__(self):
@@ -653,11 +649,6 @@ class System(QtWidgets.QMainWindow):
 
 
 # ---------------------Controls Window Class--------------------- #
-def homeWindowDeselect():
-    homeWindow.PEEPButton.setChecked(False)
-    homeWindow.VolPresButton.setChecked(False)
-
-
 class Controls(QtWidgets.QMainWindow):
     def __init__(self):
         global I_Ratio, E_Ratio, Rate, Flowtrigger, testMode
@@ -687,8 +678,6 @@ class Controls(QtWidgets.QMainWindow):
         self.IERatioButton.clicked.connect(self.IEClicked)
         self.RateButton.clicked.connect(self.RateClicked)
         self.FlowtriggerButton.clicked.connect(self.FlowClicked)
-        #homeWindow.PEEPButton.clicked.connect(self.controlsWindowDeselect)
-        #homeWindow.VolPresButton.clicked.connect(self.controlsWindowDeselect)
 
         self.setScreenLocation()
         self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
@@ -792,23 +781,15 @@ class Controls(QtWidgets.QMainWindow):
     def RateClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindowDeselect()
         if self.FlowtriggerButton.isChecked():
             self.FlowtriggerButton.setChecked(False)
-            homeWindowDeselect()
 
     def FlowClicked(self):
         if self.IERatioButton.isChecked():
             self.IERatioButton.setChecked(False)
-            homeWindowDeselect()
         if self.RateButton.isChecked():
             self.RateButton.setChecked(False)
-            homeWindowDeselect()
 
-    def controlsWindowDeselect(self):
-        self.IERatioButton.setChecked(False)
-        self.RateButton.setChecked(False)
-        self.FlowtriggerButton.setChecked(False)
 
 
 app = QtWidgets.QApplication(sys.argv)  # Create an instance of QtWidgets.QApplication
