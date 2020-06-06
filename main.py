@@ -7,6 +7,11 @@ import threading
 import time
 import sys
 
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(17, GPIO.IN)
+GPIO.setup(18, GPIO.IN)
+
 bus = SMBus(1)
 addr = 0x8
 

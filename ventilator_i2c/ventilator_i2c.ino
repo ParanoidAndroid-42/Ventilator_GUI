@@ -34,6 +34,11 @@ float I_Ratio = 1;
 float E_Ratio = 1;
 float s = 5;      // Graph ratio constant 5
 // ----------------------------------
+int Vt_new = Vt;
+int BPM_new = BPM;
+float PEEP_new = PEEP;
+float I_Ratio_new = I_Ratio;
+float E_Ratio_new = E_Ratio;
 
 unsigned long start = 0;
 int dataInterval = 10;  // ms
@@ -50,6 +55,7 @@ float receivedValue = 0;
 
 bool inhaleState = true;
 bool exhaleState = false;
+bool newValueState = false;
 
 int send_volume_data = 0;
 int send_flow_data = 0;
@@ -79,6 +85,11 @@ void loop(){
     start = millis();
     inhale();
     inhaleState = false;
+    newValueState = true;
+  }
+  if (newValueState){
+    setNewValues();
+    newValueState = false;
     exhaleState = true;
   }
   if (exhaleState){
@@ -123,6 +134,13 @@ void exhale(){
   }
 }
 
+void setNewValues(){
+  Vt = Vt_new;
+  BPM = BPM_new;
+  I_Ratio = I_Ratio_new;
+  E_Ratio = E_Ratio_new;
+}
+
 void receiveEvent(int packetSize){
   
   for (int i = 0; i < packetSize; i++){
@@ -133,45 +151,45 @@ void receiveEvent(int packetSize){
 
     //----------Register 1----------//
     if (received[1] == 1){
-      Vt = 0;
+      Vt_new = 0;
       for (int i = 2; i < packetSize; i++){
-        Vt += received[i];
+        Vt_new += received[i];
       }
       //Serial.println(Vt);
     }
 
     //----------Register 2----------//
     if (received[1] == 2){
-      BPM = 0;
+      BPM_new = 0;
       for (int i = 2; i < packetSize; i++){
-        BPM += received[i];
+        BPM_new += received[i];
       }
       Serial.println(BPM);
     }
 
     //----------Register 3----------//
     if (received[1] == 3){
-      I_Ratio = 0;
+      I_Ratio_new = 0;
       for (int i = 2; i < packetSize; i++){
-        I_Ratio += received[i]/100;
+        I_Ratio_new += received[i]/100;
       }
       //Serial.println(I_Ratio);
     }
 
     //----------Register 4----------//
     if (received[1] == 4){
-      E_Ratio = 0;
+      E_Ratio_new = 0;
       for (int i = 2; i < packetSize; i++){
-        E_Ratio += received[i]/100;
+        E_Ratio_new += received[i]/100;
       }
       //Serial.println(E_Ratio);
     }
     
     //----------Register 5----------//
     if (received[1] == 5){
-      PEEP = 0;
+      PEEP_new = 0;
       for (int i = 2; i < packetSize; i++){
-        PEEP += received[i];
+        PEEP_new += received[i];
       }
     }
 
