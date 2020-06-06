@@ -261,10 +261,10 @@ ml</string>
    <widget class="QLabel" name="Ventilation_Mode">
     <property name="geometry">
      <rect>
-      <x>676</x>
-      <y>10</y>
+      <x>670</x>
+      <y>0</y>
       <width>71</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -274,23 +274,23 @@ ml</string>
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;VC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt; font-weight:600;&quot;&gt;VC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="Patient_Type">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>660</x>
       <y>40</y>
-      <width>81</width>
-      <height>17</height>
+      <width>101</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Adult/Ped&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Adult/Ped&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
