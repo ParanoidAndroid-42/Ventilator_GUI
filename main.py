@@ -742,18 +742,15 @@ class Controls(QtWidgets.QMainWindow):
             elif I_Ratio > E_Ratio:
                 I_Ratio = round(I_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            I_Ratio_int = int(I_Ratio * 100)
-            E_Ratio_int = int(E_Ratio * 100)
-            send_packet(addr, I_Ratio_register, I_Ratio_int)
-            send_packet(addr, E_Ratio_register, E_Ratio_int)
+            self.I_Ratio_int = int(I_Ratio * 100)
+            self.E_Ratio_int = int(E_Ratio * 100)
 
         elif self.RateButton.isChecked():
-            Rate -= 1
+            self.Rate -= 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
-            Flowtrigger -= .5
+            self.Flowtrigger -= .5
             self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
             # shared.set('Flowtrigger', Flowtrigger)  # -------------------------------------- Add I2C
 
@@ -761,7 +758,7 @@ class Controls(QtWidgets.QMainWindow):
         global I_Ratio, E_Ratio, Rate, Flowtrigger
 
         I_Ratio = self.I_Ratio_Start
-        E_Ratio = self.E_Ratio_Start 
+        E_Ratio = self.E_Ratio_Start
         Rate = self.Rate_Start
         Flowtrigger = self.Flowtrigger_Start
 
