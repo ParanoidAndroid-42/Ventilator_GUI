@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>801</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,13 +30,13 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>10</y>
+      <y>-1</y>
       <width>140</width>
-      <height>40</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -52,95 +52,20 @@ background-color: rgb(39, 104, 200);</string>
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="Monitoring">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>510</y>
-      <width>140</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
-    </property>
-    <property name="text">
-     <string>Monitoring</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Utilities">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>510</y>
-      <width>140</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
-    </property>
-    <property name="text">
-     <string>Utilities</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Events">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>510</y>
-      <width>140</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(39, 104, 200);</string>
-    </property>
-    <property name="text">
-     <string>Events</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="System">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>510</y>
-      <width>140</width>
-      <height>40</height>
+      <x>250</x>
+      <y>0</y>
+      <width>191</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -160,13 +85,13 @@ background-color: rgb(39, 104, 200);</string>
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>460</y>
+      <y>390</y>
       <width>140</width>
-      <height>40</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -186,13 +111,13 @@ background-color: rgb(39, 104, 200);</string>
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>410</y>
+      <y>330</y>
       <width>140</width>
-      <height>40</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
+     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(39, 104, 200);</string>
     </property>
     <property name="text">
@@ -214,63 +139,11 @@ background-color: rgb(39, 104, 200);</string>
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="Oxygen">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>290</y>
-      <width>71</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-QPushButton#Oxygen {	
-	color: rgb(255, 255, 255);
-	background-color: rgb(39, 104, 200);
-}
-
-
-QPushButton#Oxygen:checked {	
-	color: rgb(0, 0, 0);
-	background-color: rgb(245, 121, 0);
-}</string>
-    </property>
-    <property name="text">
-     <string>50
-%</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="autoExclusive">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Oxygen_Label">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>350</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Oxygen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="PEEP_Label">
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>250</y>
+      <y>270</y>
       <width>91</width>
       <height>21</height>
      </rect>
@@ -285,10 +158,10 @@ QPushButton#Oxygen:checked {
    <widget class="QPushButton" name="PEEP">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>190</y>
-      <width>71</width>
-      <height>51</height>
+      <x>660</x>
+      <y>200</y>
+      <width>91</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -297,7 +170,7 @@ QPushButton#Oxygen:checked {
     <property name="styleSheet">
      <string notr="true">
 QPushButton#PEEP {	
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 
@@ -333,16 +206,16 @@ cmH2O</string>
    <widget class="QPushButton" name="VolPres">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>660</x>
       <y>90</y>
-      <width>71</width>
-      <height>51</height>
+      <width>91</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">
 QPushButton#VolPres{	
-	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
 	background-color: rgb(39, 104, 200);
 }
 
@@ -373,7 +246,7 @@ ml</string>
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>150</y>
+      <y>160</y>
       <width>91</width>
       <height>21</height>
      </rect>
@@ -388,10 +261,10 @@ ml</string>
    <widget class="QLabel" name="Ventilation_Mode">
     <property name="geometry">
      <rect>
-      <x>676</x>
-      <y>10</y>
+      <x>670</x>
+      <y>0</y>
       <width>71</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -401,23 +274,23 @@ ml</string>
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;VC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt; font-weight:600;&quot;&gt;VC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="Patient_Type">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>660</x>
       <y>40</y>
-      <width>81</width>
-      <height>17</height>
+      <width>101</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Adult/Ped&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Adult/Ped&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -429,7 +302,7 @@ ml</string>
       <x>0</x>
       <y>60</y>
       <width>621</width>
-      <height>441</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -454,7 +327,7 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="Ppeak_Label">
@@ -470,7 +343,7 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Ppeak&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Ppeak&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="cmH2O_Label">
@@ -486,14 +359,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;cmH2O&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;cmH2O&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="ExpMinVol">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>110</y>
+       <x>160</x>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -502,14 +375,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="ExpMinVol_Label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>160</y>
+       <x>160</x>
+       <y>60</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -518,14 +391,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;ExpMinVol&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;ExpMinVol&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="liters_per_min_Label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>180</y>
+       <x>160</x>
+       <y>80</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -534,42 +407,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;l/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>200</y>
-       <width>141</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Sunken</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;l/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="VTE">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>210</y>
+       <x>310</x>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -578,14 +423,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="VTE_Label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>260</y>
+       <x>310</x>
+       <y>60</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -594,14 +439,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;VTE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;VTE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="liters_per_min_Label_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>280</y>
+       <x>310</x>
+       <y>80</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -610,14 +455,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;ml&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;ml&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="fTotal">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>320</y>
+       <x>460</x>
+       <y>10</y>
        <width>131</width>
        <height>51</height>
       </rect>
@@ -626,14 +471,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="fTota_Label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>370</y>
+       <x>460</x>
+       <y>60</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -642,14 +487,14 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;fTotal&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;fTotal&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="breath_per_min_Label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>390</y>
+       <x>460</x>
+       <y>80</y>
        <width>131</width>
        <height>21</height>
       </rect>
@@ -658,44 +503,16 @@ ml</string>
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;b/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-    <widget class="Line" name="line_3">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>300</y>
-       <width>141</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Sunken</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;b/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="Line" name="line_4">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>100</y>
-       <width>141</width>
-       <height>16</height>
+       <x>140</x>
+       <y>0</y>
+       <width>21</width>
+       <height>101</height>
       </rect>
      </property>
      <property name="autoFillBackground">
@@ -714,19 +531,193 @@ ml</string>
       <number>2</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="PlotWidget" name="graphWidget" native="true">
+    <widget class="Line" name="line_5">
      <property name="geometry">
       <rect>
-       <x>159</x>
-       <y>159</y>
-       <width>451</width>
-       <height>251</height>
+       <x>290</x>
+       <y>0</y>
+       <width>21</width>
+       <height>101</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="midLineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
     </widget>
+    <widget class="Line" name="line_6">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>0</y>
+       <width>21</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="midLineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>110</y>
+       <width>621</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTabBar::tab{	
+	color: rgb(0, 0, 0);
+	
+	background-color: rgb(110, 154, 220);
+	height:51px; width:140px;
+}
+QTabBar::tab:selected{	
+	
+	
+	background-color: rgb(76, 107, 152);
+}</string>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <property name="documentMode">
+      <bool>false</bool>
+     </property>
+     <property name="tabBarAutoHide">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="Volume">
+      <attribute name="title">
+       <string>Volume</string>
+      </attribute>
+      <widget class="PlotWidget" name="VolumeWidget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>601</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="Flow">
+      <attribute name="title">
+       <string>Flow</string>
+      </attribute>
+      <widget class="PlotWidget" name="FlowWidget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>601</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="Pressure">
+      <attribute name="title">
+       <string>Pressure</string>
+      </attribute>
+      <widget class="PlotWidget" name="PressureWidget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>601</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="Warning">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(239, 41, 41);</string>
+    </property>
+    <property name="text">
+     <string>Warning</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -734,7 +725,7 @@ ml</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>801</width>
      <height>22</height>
     </rect>
    </property>
