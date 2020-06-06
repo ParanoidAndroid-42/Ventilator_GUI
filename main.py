@@ -779,7 +779,7 @@ class Controls(QtWidgets.QMainWindow):
 
     def confirmMethod(self):
         global Rate, addr, BPM_register, I_Ratio_register, E_Ratio_register
-        if rate != self.Rate_Start:
+        if Rate != self.Rate_Start:
             send_packet(addr, BPM_register, Rate)
         if I_Ratio != self.I_Ratio_Start or E_Ratio != self.E_Ratio_Start:
             self.I_Ratio_int = int(I_Ratio * 100)
