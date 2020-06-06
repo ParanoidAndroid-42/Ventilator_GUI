@@ -654,6 +654,17 @@ class Controls(QtWidgets.QMainWindow):
         self.RateButton = self.findChild(QtWidgets.QPushButton, 'Rate')
         self.FlowtriggerButton = self.findChild(QtWidgets.QPushButton, 'Flowtrigger')
 
+        self.I_Ratio_Start = I_Ratio
+        self.E_Ratio_Start = E_Ratio
+        self.Rate_Start = Rate
+        self.Flowtrigger_Start = Flowtrigger
+
+        self.I_Ratio_int = I_Ratio
+        self.E_Ratio_int = E_Ratio
+        self.Rate = Rate
+        self.Flowtrigger = Flowtrigger
+
+
         # -----------Encoder Setup---------
         if not testMode:
             self.inc_counter = 0
@@ -709,15 +720,12 @@ class Controls(QtWidgets.QMainWindow):
             elif E_Ratio > I_Ratio:
                 E_Ratio = round(E_Ratio - .1, 2)
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
-            I_Ratio_int = int(I_Ratio*100)
-            E_Ratio_int = int(E_Ratio*100)
-            send_packet(addr, I_Ratio_register, I_Ratio_int)
-            send_packet(addr, E_Ratio_register, E_Ratio_int)
+            self.I_Ratio_int = int(I_Ratio*100)
+            self.E_Ratio_int = int(E_Ratio*100)
 
         elif self.RateButton.isChecked():
-            Rate += 1
+            self.Rate += 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger += .5
@@ -750,12 +758,23 @@ class Controls(QtWidgets.QMainWindow):
             # shared.set('Flowtrigger', Flowtrigger)  # -------------------------------------- Add I2C
 
     def cancelMethod(self):
+        global I_Ratio, E_Ratio, Rate, Flowtrigger
+
+        I_Ratio = self.I_Ratio_Start
+        E_Ratio = self.E_Ratio_Start 
+        Rate = self.Rate_Start
+        Flowtrigger = self.Flowtrigger_Start
+
         self.IERatioButton.setChecked(False)
         self.RateButton.setChecked(False)
         self.FlowtriggerButton.setChecked(False)
         self.close()
 
     def confirmMethod(self):
+        send_packet(addr, BPM_register, self.Rate)
+        send_packet(addr, I_Ratio_register, self.I_Ratio_int)
+        send_packet(addr, E_Ratio_register, self.E_Ratio_int)
+
         self.IERatioButton.setChecked(False)
         self.RateButton.setChecked(False)
         self.FlowtriggerButton.setChecked(False)
