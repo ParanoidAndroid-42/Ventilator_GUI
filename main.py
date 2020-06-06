@@ -661,8 +661,7 @@ class Controls(QtWidgets.QMainWindow):
 
         self.I_Ratio_int = I_Ratio
         self.E_Ratio_int = E_Ratio
-        self.Rate = Rate
-        self.Flowtrigger = Flowtrigger
+
 
 
         # -----------Encoder Setup---------
@@ -770,6 +769,7 @@ class Controls(QtWidgets.QMainWindow):
     def confirmMethod(self):
         global Rate
 
+        print(Rate)
         send_packet(addr, BPM_register, Rate)
         send_packet(addr, I_Ratio_register, self.I_Ratio_int)
         send_packet(addr, E_Ratio_register, self.E_Ratio_int)
