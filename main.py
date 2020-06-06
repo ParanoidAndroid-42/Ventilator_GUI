@@ -8,7 +8,7 @@ import time
 import sys
 
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN)
 GPIO.setup(18, GPIO.IN)
 
