@@ -102,8 +102,8 @@ void inhale(){
       lungVolume_last = lungVolume;
       pressure = ((s*R)/(period/1000)+start_PEEP);
       pressure = (pressure + pressure_last)/2;
-      Serial.print(pressure);
     }
+    Serial.println(lungVolume);
   }
   pressure_last = pressure;
 }
@@ -119,7 +119,6 @@ void exhale(){
       lungVolume = Vt*pow(e, (-(x*s)/exhaleTime));
       flowRate = (lungVolume - lungVolume_last)*5;
       lungVolume_last = lungVolume;
-      Serial.print(pressure);
     }
   }
 }
@@ -147,6 +146,7 @@ void receiveEvent(int packetSize){
       for (int i = 2; i < packetSize; i++){
         BPM += received[i];
       }
+      Serial.println(BPM);
     }
 
     //----------Register 3----------//
