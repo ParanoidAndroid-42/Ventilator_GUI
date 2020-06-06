@@ -778,10 +778,12 @@ class Controls(QtWidgets.QMainWindow):
         self.close()
 
     def confirmMethod(self):
-        global Rate
-        send_packet(addr, BPM_register, Rate)
-        send_packet(addr, I_Ratio_register, self.I_Ratio_int)
-        send_packet(addr, E_Ratio_register, self.E_Ratio_int)
+        global Rate, addr, BPM_register, I_Ratio_register, E_Ratio_register
+        if rate != self.Rate_Start:
+            send_packet(addr, BPM_register, Rate)
+        if I_Ratio != self.I_Ratio_Start or E_Ratio != self.E_Ratio_Start:
+            send_packet(addr, I_Ratio_register, self.I_Ratio_int)
+            send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
         self.IERatioButton.setChecked(False)
         self.RateButton.setChecked(False)
