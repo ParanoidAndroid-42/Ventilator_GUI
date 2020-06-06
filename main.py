@@ -782,6 +782,8 @@ class Controls(QtWidgets.QMainWindow):
         if rate != self.Rate_Start:
             send_packet(addr, BPM_register, Rate)
         if I_Ratio != self.I_Ratio_Start or E_Ratio != self.E_Ratio_Start:
+            self.I_Ratio_int = int(I_Ratio * 100)
+            self.E_Ratio_int = int(E_Ratio * 100)
             send_packet(addr, I_Ratio_register, self.I_Ratio_int)
             send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
