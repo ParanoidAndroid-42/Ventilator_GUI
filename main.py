@@ -768,7 +768,9 @@ class Controls(QtWidgets.QMainWindow):
         self.close()
 
     def confirmMethod(self):
-        send_packet(addr, BPM_register, self.Rate)
+        global Rate
+
+        send_packet(addr, BPM_register, Rate)
         send_packet(addr, I_Ratio_register, self.I_Ratio_int)
         send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
