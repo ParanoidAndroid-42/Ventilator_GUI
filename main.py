@@ -726,13 +726,13 @@ class Controls(QtWidgets.QMainWindow):
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             self.I_Ratio_int = int(I_Ratio*100)
             self.E_Ratio_int = int(E_Ratio*100)
-            send_packet(addr, I_Ratio_register, self.I_Ratio_int)
-            send_packet(addr, E_Ratio_register, self.E_Ratio_int)
+            #send_packet(addr, I_Ratio_register, self.I_Ratio_int)
+            #send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
         elif self.RateButton.isChecked():
             Rate += 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            send_packet(addr, BPM_register, Rate)
+            #send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger += .5
@@ -751,13 +751,13 @@ class Controls(QtWidgets.QMainWindow):
                 self.IERatioButton.setText("{}:{}".format(str(I_Ratio), str(E_Ratio)))
             self.I_Ratio_int = int(I_Ratio * 100)
             self.E_Ratio_int = int(E_Ratio * 100)
-            send_packet(addr, I_Ratio_register, self.I_Ratio_int)
-            send_packet(addr, E_Ratio_register, self.E_Ratio_int)
+            #send_packet(addr, I_Ratio_register, self.I_Ratio_int)
+            #send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
         elif self.RateButton.isChecked():
             Rate -= 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
-            send_packet(addr, BPM_register, Rate)
+            #send_packet(addr, BPM_register, Rate)
 
         elif self.FlowtriggerButton.isChecked():
             Flowtrigger -= .5
@@ -779,9 +779,9 @@ class Controls(QtWidgets.QMainWindow):
 
     def confirmMethod(self):
         global Rate
-
-
-
+        send_packet(addr, BPM_register, Rate)
+        send_packet(addr, I_Ratio_register, self.I_Ratio_int)
+        send_packet(addr, E_Ratio_register, self.E_Ratio_int)
 
         self.IERatioButton.setChecked(False)
         self.RateButton.setChecked(False)
