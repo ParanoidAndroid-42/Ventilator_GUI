@@ -724,7 +724,7 @@ class Controls(QtWidgets.QMainWindow):
             self.E_Ratio_int = int(E_Ratio*100)
 
         elif self.RateButton.isChecked():
-            self.Rate += 1
+            Rate += 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
 
         elif self.FlowtriggerButton.isChecked():
@@ -746,11 +746,11 @@ class Controls(QtWidgets.QMainWindow):
             self.E_Ratio_int = int(E_Ratio * 100)
 
         elif self.RateButton.isChecked():
-            self.Rate -= 1
+            Rate -= 1
             self.RateButton.setText("{}\nb/min".format(str(Rate)))
 
         elif self.FlowtriggerButton.isChecked():
-            self.Flowtrigger -= .5
+            Flowtrigger -= .5
             self.FlowtriggerButton.setText("{}\nl/min".format(str(Flowtrigger)))
             # shared.set('Flowtrigger', Flowtrigger)  # -------------------------------------- Add I2C
 
