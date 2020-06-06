@@ -587,18 +587,18 @@ class Modes(QtWidgets.QMainWindow):
             PCMode = True
             VCMode = False
             homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">PC</span></p></body></html>")
+                "<html><head/><body><p align=\"center\"><span style=\" font-size:26pt; font-weight:600;\">PC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\ncmH2O".format(str(Pcontrol)))
             homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
+                "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Pcontrol</span></p><p align=\"center\"><br/></p></body></html>")
         elif self.VCButton.isChecked():
             VCMode = True
             PCMode = False
             homeWindow.ventModeLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:600;\">VC</span></p></body></html>")
+                "<html><head/><body><p align=\"center\"><span style=\" font-size:26pt; font-weight:600;\">VC</span></p></body></html>")
             homeWindow.VolPresButton.setText("{}\nml".format(str(Vt)))
             homeWindow.VolPresLabel.setText(
-                "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
+                "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Vt</span></p><p align=\"center\"><br/></p></body></html>")
         self.close()
 
     def cancel(self):
