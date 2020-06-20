@@ -67,8 +67,11 @@ def send_packet(address, register, value):
 
 def audioAlarm(state):
     global buzzer_pin
+    buzzer_timeout = 2
+    start = time.time()
     if state:
-        GPIO.output(buzzer_pin, 1)
+        if time.time() < start + buzzer_timeout:
+            GPIO.output(buzzer_pin, 1)
     else:
         GPIO.output(buzzer_pin, 0)
 
