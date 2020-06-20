@@ -67,7 +67,7 @@ def send_packet(address, register, value):
 
 def audioAlarm():
     global buzzer_pin
-    beep_time = .3
+    beep_time = .2
     buzzer_timeout = 2
     wait_time = 20
     while True:
