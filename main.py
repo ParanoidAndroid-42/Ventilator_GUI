@@ -70,8 +70,8 @@ def audioAlarm():
     beep_time = .3
     buzzer_timeout = 2
     wait_time = 20
-    start = time.time()
     while True:
+        start = time.time()
         while time.time() < start + buzzer_timeout:
             beep_start = time.time()
             while time.time() < beep_start + beep_time:
