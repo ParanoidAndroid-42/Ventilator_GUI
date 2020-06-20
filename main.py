@@ -72,7 +72,6 @@ def audioAlarm(state):
     else:
         GPIO.output(buzzer_pin, 0)
 
-audioAlarm(True)
 
 # ---------------------Monitoring Window Class--------------------- #
 class Monitoring(QtWidgets.QMainWindow):
