@@ -70,10 +70,9 @@ def audioAlarm(state):
     buzzer_timeout = 2
     start = time.time()
     if state:
-        if time.time() < start + buzzer_timeout:
+        while time.time() < start + buzzer_timeout:
             GPIO.output(buzzer_pin, 1)
-        else:
-            GPIO.output(buzzer_pin, 0)
+        GPIO.output(buzzer_pin, 0)
     else:
         GPIO.output(buzzer_pin, 0)
 
