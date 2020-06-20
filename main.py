@@ -65,7 +65,7 @@ def send_packet(address, register, value):
     bus.write_i2c_block_data(address, 0, packet)
 
 
-def audioAlarm(state):
+def audioAlarm():
     global buzzer_pin
     buzzer_timeout = 2
     start = time.time()
