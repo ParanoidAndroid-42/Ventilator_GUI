@@ -75,7 +75,7 @@ def audioAlarm():
             beep_start = time.time()
             while time.time() < beep_start + beep_time:
                 GPIO.output(buzzer_pin, 1)
-                beep_start = time.time()
+            beep_start = time.time()
             while time.time() < beep_start + beep_time:
                 GPIO.output(buzzer_pin, 0)
 
@@ -298,6 +298,7 @@ class Home(QtWidgets.QMainWindow):
         self.flowFirstRun = True
         self.pressureFirstRun = True
         self.alarm = threading.Thread(target=audioAlarm)
+        self.alarmRunning = False
 
         for i in range(Xscale * graphResolution):
             self.volumeData.append(0)
@@ -568,7 +569,9 @@ class Home(QtWidgets.QMainWindow):
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
-            self.alarm.start()
+            if not self.alarmRunning:
+                self.alarm.start()
+                self.alarmRunning = True
 
     def warningAcknowledged(self):
         self.WarningButton.hide()
