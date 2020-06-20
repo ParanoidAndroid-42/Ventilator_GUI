@@ -72,6 +72,8 @@ def audioAlarm(state):
     if state:
         if time.time() < start + buzzer_timeout:
             GPIO.output(buzzer_pin, 1)
+        else:
+            GPIO.output(buzzer_pin, 0)
     else:
         GPIO.output(buzzer_pin, 0)
 
