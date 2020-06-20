@@ -69,7 +69,7 @@ def audioAlarm(state):
     global buzzer_pin
     buzzer_timeout = 2
     start = time.time()
-    if state:
+    if True:
         while time.time() < start + buzzer_timeout:
             GPIO.output(buzzer_pin, 1)
         GPIO.output(buzzer_pin, 0)
@@ -561,7 +561,7 @@ class Home(QtWidgets.QMainWindow):
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
-            alarm = threading.Thread(target=audioAlarm, args=True)
+            alarm = threading.Thread(target=audioAlarm)
             alarm.start()
 
     def warningAcknowledged(self):
