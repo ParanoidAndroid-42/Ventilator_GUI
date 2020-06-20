@@ -561,11 +561,13 @@ class Home(QtWidgets.QMainWindow):
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
+            alarm = threading.Thread(target=audioAlarm, args=True)
+            alarm.start()
             audioAlarm(True)
 
     def warningAcknowledged(self):
         self.WarningButton.hide()
-        audioAlarm(False)
+        alarm.stop()
 
 
 # ---------------------Modes Window Class--------------------- #
