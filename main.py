@@ -51,6 +51,8 @@ volume_register = 6
 flow_register = 7
 pressure_register = 8
 
+alarm_running = False
+
 
 # --------------------Functions--------------------- #
 def send_packet(address, register, value):
@@ -66,11 +68,11 @@ def send_packet(address, register, value):
 
 
 def audioAlarm():
-    global buzzer_pin
+    global buzzer_pin, alarm_running
     beep_time = .2
     buzzer_timeout = 2
     wait_time = 20
-    while True:
+    while alarm_running:
         start = time.time()
         while time.time() < start + buzzer_timeout:
             beep_start = time.time()
@@ -299,7 +301,6 @@ class Home(QtWidgets.QMainWindow):
         self.flowFirstRun = True
         self.pressureFirstRun = True
         self.alarm = threading.Thread(target=audioAlarm)
-        self.alarmRunning = False
 
         for i in range(Xscale * graphResolution):
             self.volumeData.append(0)
@@ -567,17 +568,18 @@ class Home(QtWidgets.QMainWindow):
         self.ControlsWindow.show()
 
     def setWarning(self, warning_number):
+        global alarm_running
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
-            if not self.alarmRunning:
+            if not alarmRunning:
+                alarm_running = True
                 self.alarm.start()
-                self.alarmRunning = True
 
     def warningAcknowledged(self):
+        global alarm_running
         self.WarningButton.hide()
-        self.alarm.stop()
-        self.alarmRunning = False
+        alarm_running = False
 
 
 # ---------------------Modes Window Class--------------------- #
@@ -666,6 +668,8 @@ class System(QtWidgets.QMainWindow):
         self.move(x - 50, y - 100)
 
     def shutdownMethod(self):
+        global alarm_running
+        alarm_running = False
         homeWindow.close()
         self.close()
 
