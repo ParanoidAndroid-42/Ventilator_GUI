@@ -8,9 +8,11 @@ import time
 import sys
 
 import RPi.GPIO as GPIO
+buzzer_pin = 23
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN)
 GPIO.setup(18, GPIO.IN)
+GPIO.setup(buzzer_pin, GPIO.OUT)
 
 bus = SMBus(1)
 addr = 0x8
@@ -61,6 +63,15 @@ def send_packet(address, register, value):
 
     packet.insert(0, register)
     bus.write_i2c_block_data(address, 0, packet)
+
+
+def audioAlarm(state):
+    global buzzer_pin
+    if state:
+        GPIO.output(buzzer_pin, 1)
+    else:
+        GPIO.output(buzzer_pin, 0)
+
 
 # ---------------------Monitoring Window Class--------------------- #
 class Monitoring(QtWidgets.QMainWindow):
@@ -546,9 +557,11 @@ class Home(QtWidgets.QMainWindow):
         if warning_number == 1:                             # Control board disconnected
             self.WarningButton.setText("CB Disconnected")
             self.WarningButton.show()
+            audioAlarm(True)
 
     def warningAcknowledged(self):
         self.WarningButton.hide()
+        audioAlarm(False)
 
 
 # ---------------------Modes Window Class--------------------- #
