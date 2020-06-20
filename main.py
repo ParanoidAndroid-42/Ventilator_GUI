@@ -69,8 +69,9 @@ def audioAlarm():
     global buzzer_pin
     beep_time = .3
     buzzer_timeout = 2
+    wait_time = 20
     start = time.time()
-    if True:
+    while True:
         while time.time() < start + buzzer_timeout:
             beep_start = time.time()
             while time.time() < beep_start + beep_time:
@@ -78,9 +79,9 @@ def audioAlarm():
             beep_start = time.time()
             while time.time() < beep_start + beep_time:
                 GPIO.output(buzzer_pin, 0)
-
-        GPIO.output(buzzer_pin, 0)
-
+        wait_start = time.time()
+        while time.time() < wait_start + wait_time:
+            GPIO.output(buzzer_pin, 0)
 
 
 # ---------------------Monitoring Window Class--------------------- #
@@ -576,6 +577,7 @@ class Home(QtWidgets.QMainWindow):
     def warningAcknowledged(self):
         self.WarningButton.hide()
         self.alarm.stop()
+        self.alarmRunning = False
 
 
 # ---------------------Modes Window Class--------------------- #
