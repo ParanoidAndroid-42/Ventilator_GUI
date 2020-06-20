@@ -563,7 +563,6 @@ class Home(QtWidgets.QMainWindow):
             self.WarningButton.show()
             alarm = threading.Thread(target=audioAlarm, args=True)
             alarm.start()
-            audioAlarm(True)
 
     def warningAcknowledged(self):
         self.WarningButton.hide()
